@@ -45,6 +45,7 @@ cd samples/ps-load-game-net
 * Load PS2 games from USB
 * Load PS2 games from HDD
 * Make system calls firmware indepedent
+* Additional PS2 game save exploits for other games. (Change "okrager" binary for another game)
 
 ### Project Ideas
 * ps-psh - Primitive shell command server allowing you to telnet to the PS4/PS5
