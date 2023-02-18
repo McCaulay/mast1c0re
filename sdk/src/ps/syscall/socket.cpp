@@ -43,9 +43,19 @@ int32_t	PS::connect(int32_t sockfd, const struct sockaddr *addr, socklen_t addrL
     return (int32_t)PS::Breakout::syscall(98, sockfd, PVAR_TO_NATIVE(addr), addrLen);
 }
 
+int32_t PS::getsockopt(int32_t sockfd, int32_t level, int32_t optname, void *optval, socklen_t *optlen)
+{
+    return (int32_t)PS::Breakout::syscall(118, sockfd, level, optname, PVAR_TO_NATIVE(optval), PVAR_TO_NATIVE(optlen));
+}
+
 int32_t PS::listen(int32_t sockfd, int32_t backlog)
 {
     return (int32_t)PS::Breakout::syscall(106, sockfd, backlog);
+}
+
+int32_t PS::setsockopt(int32_t sockfd, int32_t level, int32_t optname, void *optval, socklen_t optlen)
+{
+    return (int32_t)PS::Breakout::syscall(105, sockfd, level, optname, PVAR_TO_NATIVE(optval), optlen);
 }
 
 int32_t PS::socket(int32_t domain, int32_t type, int32_t protocol)

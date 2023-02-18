@@ -473,15 +473,15 @@ struct cmsghdr {
 
 /* given pointer to struct cmsghdr, return pointer to data */
 #define CMSG_DATA(cmsg) \
- ((unsigned char *)(cmsg) + _ALIGN(sizeof(struct cmsghdr)))
+ ((unsigned char *)(cmsg) + (sizeof(struct cmsghdr)))
 
 /* given pointer to struct cmsghdr, return pointer to next cmsghdr */
 #define CMSG_NXTHDR(mhdr, cmsg) \
- (((char *)(cmsg) + _ALIGN((cmsg)->cmsg_len) + \
-       _ALIGN(sizeof(struct cmsghdr)) > \
+ (((char *)(cmsg) + ((cmsg)->cmsg_len) + \
+       (sizeof(struct cmsghdr)) > \
      ((char *)(mhdr)->msg_control) + (mhdr)->msg_controllen) ? \
      (struct cmsghdr *)NULL : \
-     (struct cmsghdr *)((char *)(cmsg) + _ALIGN((cmsg)->cmsg_len)))
+     (struct cmsghdr *)((char *)(cmsg) + ((cmsg)->cmsg_len)))
 
 /*
  * RFC 2292 requires to check msg_controllen, in case that the kernel returns
@@ -493,13 +493,13 @@ struct cmsghdr {
   (struct cmsghdr *)NULL)
 
 /* Round len up to next alignment boundary */
-#define CMSG_ALIGN(n)  _ALIGN(n)
+#define CMSG_ALIGN(len)  ( ((len)+sizeof(long)-1) & ~(sizeof(long)-1) )
 
 /* Length of the contents of a control message of length len */
-#define CMSG_LEN(len) (_ALIGN(sizeof(struct cmsghdr)) + (len))
+#define CMSG_LEN(len) ((sizeof(struct cmsghdr)) + (len))
 
 /* Length of the space taken up by a padded control message of length len */
-#define CMSG_SPACE(len) (_ALIGN(sizeof(struct cmsghdr)) + _ALIGN(len))
+#define CMSG_SPACE(len) ((sizeof(struct cmsghdr)) + (len))
 
 /* "Socket"-level control message types: */
 #define SCM_RIGHTS 0x01  /* access rights (array of int) */
@@ -534,7 +534,7 @@ namespace PS
     int32_t connect(int32_t sockfd, const struct sockaddr *addr, socklen_t addrLen);
     // int getpeername(int, struct sockaddr *, socklen_t *);
     // int getsockname(int, struct sockaddr *, socklen_t *);
-    // int getsockopt(int, int, int, void *, socklen_t *);
+    int32_t getsockopt(int32_t sockfd, int32_t level, int32_t optname, void *optval, socklen_t *optlen);
     int32_t listen(int32_t sockfd, int32_t backlog);
     // ssize_t recv(int, void *, size_t, int);
     // ssize_t recvfrom(int, void *, size_t, int, struct sockaddr *, socklen_t *);
@@ -545,7 +545,7 @@ namespace PS
     //      size_t, int, const struct sockaddr *, socklen_t);
     // ssize_t sendmsg(int, const struct msghdr *, int);
     // int sendmmsg(int, struct mmsghdr *, unsigned int, int);
-    // int setsockopt(int, int, int, const void *, socklen_t);
+    int32_t setsockopt(int32_t sockfd, int32_t level, int32_t optname, void *optval, socklen_t optlen);
     // int shutdown(int, int);
     // int sockatmark(int);
     int32_t socket(int32_t domain, int32_t type, int32_t protocol);

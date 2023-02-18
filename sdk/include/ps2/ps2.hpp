@@ -1,10 +1,24 @@
 #pragma once
 #include <stdarg.h>
+#include <types.hpp>
 
 #define PS2_MAX_THREADS 255
 
 class PS2
 {
+public:
+    typedef struct t_ee_thread
+    {
+        int status;           // 0x00
+        void *(*func)(void*); // 0x04
+        void* stack;          // 0x08
+        int stack_size;       // 0x0C
+        void* gp_reg;         // 0x10
+        int initial_priority; // 0x14
+        int current_priority; // 0x18
+        uint32_t attr;        // 0x1C
+        uint32_t option;      // 0x20
+    } ee_thread_t;
 public:
     // common
     typedef void* fMalloc(unsigned int size);
@@ -19,7 +33,10 @@ public:
     // syscalls
     typedef void fLoadExecPS2(char* filename, int argc, char** argv);
     typedef int  fGetThreadId();
+    typedef int  fCreateThread(PS2::ee_thread_t* thread);
+    typedef int  fStartThread(int threadId, void* args);
     typedef int  fSleepThread();
+    typedef int  fExitDeleteThread();
     typedef int  fSuspendThread(int threadId);
     typedef int  fTerminateThread(int threadId);
     typedef int  fDeleteThread(int threadId);
@@ -57,13 +74,16 @@ public:
     static fVsprintf* vsprintf;
 
     // syscalls
-    static fLoadExecPS2*     LoadExecPS2;
-    static fGetThreadId*     GetThreadId;
-    static fSleepThread*     SleepThread;
-    static fSuspendThread*   SuspendThread;
-    static fTerminateThread* TerminateThread;
-    static fDeleteThread*    DeleteThread;
-    static fExit*            Exit;
+    static fLoadExecPS2*      LoadExecPS2;
+    static fGetThreadId*      GetThreadId;
+    static fCreateThread*     CreateThread;
+    static fStartThread*      StartThread;
+    static fSleepThread*      SleepThread;
+    static fExitDeleteThread* ExitDeleteThread;
+    static fSuspendThread*    SuspendThread;
+    static fTerminateThread*  TerminateThread;
+    static fDeleteThread*     DeleteThread;
+    static fExit*             Exit;
 
     // libmc
     static fMcInit*                 mcInit;
@@ -90,6 +110,7 @@ public:
     static void* realloc(void* ptr, unsigned int size);
     static char* strcpy(char* dest, const char* src);
     static char* strcat(char* dest, const char* src);
+    static int createAndStartThread(void *(*func)(void*), void* stack, uint32_t stackSize, const char* name);
     static void killThreads();
     static char* gameCodeToPath(char* gameCode);
 };

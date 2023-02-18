@@ -15,13 +15,16 @@ PS2::fSprintf*  PS2::sprintf  = (PS2::fSprintf*)PS2_SPRINTF;
 PS2::fVsprintf* PS2::vsprintf = (PS2::fVsprintf*)PS2_VSPRINTF;
 
 // syscalls
-PS2::fLoadExecPS2*     PS2::LoadExecPS2     = (PS2::fLoadExecPS2*)PS2_SYS_LOAD_EXEC_PS2;
-PS2::fGetThreadId*     PS2::GetThreadId     = (PS2::fGetThreadId*)PS2_SYS_GET_THREAD_ID;
-PS2::fSleepThread*     PS2::SleepThread     = (PS2::fSleepThread*)PS2_SYS_SLEEP_THREAD;
-PS2::fSuspendThread*   PS2::SuspendThread   = (PS2::fSuspendThread*)PS2_SYS_SUSPEND_THREAD;
-PS2::fTerminateThread* PS2::TerminateThread = (PS2::fTerminateThread*)PS2_SYS_TERMINATE_THREAD;
-PS2::fDeleteThread*    PS2::DeleteThread    = (PS2::fDeleteThread*)PS2_SYS_DELETE_THREAD;
-PS2::fExit*            PS2::Exit            = (PS2::fExit*)PS2_SYS_EXIT;
+PS2::fLoadExecPS2*      PS2::LoadExecPS2      = (PS2::fLoadExecPS2*)PS2_SYS_LOAD_EXEC_PS2;
+PS2::fGetThreadId*      PS2::GetThreadId      = (PS2::fGetThreadId*)PS2_SYS_GET_THREAD_ID;
+PS2::fCreateThread*     PS2::CreateThread     = (PS2::fCreateThread*)PS2_SYS_CREATE_THREAD;
+PS2::fStartThread*      PS2::StartThread      = (PS2::fStartThread*)PS2_SYS_START_THREAD;
+PS2::fSleepThread*      PS2::SleepThread      = (PS2::fSleepThread*)PS2_SYS_SLEEP_THREAD;
+PS2::fExitDeleteThread* PS2::ExitDeleteThread = (PS2::fExitDeleteThread*)PS2_SYS_EXIT_DELETE_THREAD;;
+PS2::fSuspendThread*    PS2::SuspendThread    = (PS2::fSuspendThread*)PS2_SYS_SUSPEND_THREAD;
+PS2::fTerminateThread*  PS2::TerminateThread  = (PS2::fTerminateThread*)PS2_SYS_TERMINATE_THREAD;
+PS2::fDeleteThread*     PS2::DeleteThread     = (PS2::fDeleteThread*)PS2_SYS_DELETE_THREAD;
+PS2::fExit*             PS2::Exit             = (PS2::fExit*)PS2_SYS_EXIT;
 
 // libmc
 PS2::fMcInit*                 PS2::mcInit                 = (PS2::fMcInit*)PS2_MC_INIT;
@@ -72,6 +75,25 @@ char* PS2::strcat(char* dest, const char* src)
     PS2::strcpy(dest + destLen, src);
     dest[destLen + srcLen] = '\0';
     return dest;
+}
+
+int PS2::createAndStartThread(void *(*func)(void*), void* stack, uint32_t stackSize, const char* name)
+{
+    ee_thread_t thread;
+    thread.func = func;
+    thread.stack = stack;
+    thread.stack_size = stackSize;
+    thread.option = (uint32_t)name;
+    thread.initial_priority = 0;
+    thread.gp_reg = 0;
+    int threadId = PS2::CreateThread(&thread);
+    if (threadId < 0)
+        return threadId;
+
+    int result = PS2::StartThread(threadId, nullptr);
+    if (result < 0)
+        return result;
+    return threadId;
 }
 
 void PS2::killThreads()
