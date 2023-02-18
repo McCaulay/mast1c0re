@@ -1,0 +1,40 @@
+#pragma once
+
+#if ((defined(PS4) && PS4) || (defined(PS5) && PS5)) && defined(EBOOT_VERSION) && EBOOT_VERSION == 101
+    // Handlers
+    #define IO_REGISTER_READ_HANDLERS         0x060e7880
+    #define INTERRUPT_WRITE_HANDLERS          0x00ae7d98
+    #define IO_REGISTER_READ_HANDLER_ORIGINAL 0x005a9d60
+    #define INTERRUPT_WRITE_HANDLER_ORIGINAL  0x0047da10
+
+    // Game Pad Handles
+    #define EBOOT_PADS                        0x1d26890
+
+    // Mount Disc
+    #define EBOOT_MOUNT_DISC_FUNC                   0x0460580
+    #define EBOOT_MOUNT_DISC_OPTIONS_STACK_OFFSET   0x0412AA0 // 0x7EEFFAAA0 - 0x7EEBE8000
+    #define EBOOT_MOUNT_DISC_GAME_CODE              0x0845a20
+
+    // Function Stubs
+    #define EBOOT_SCE_MEMCPY_STUB                   0x07645d0
+    #define EBOOT_SCE_STRNCPY_STUB                  0x0763d20
+    #define EBOOT_SCE_GETPID_STUB                   0x07639c0
+    #define EBOOT_SCE_PAD_SET_LIGHTBAR_STUB         0x07641f0
+    #define EBOOT_SCE_KERNEL_USLEEP_STUB            0x0763b30
+
+    #define EBOOT_SCE_COMMON_DIALOG_INITIALIZE_STUB 0x00763f00
+    #define EBOOT_SCE_COMMON_DIALOG_IS_USED_STUB    0x00763ef0
+
+    #define EBOOT_SCE_MSG_DIALOG_INITIALIZE_STUB    0x00763fa0
+    #define EBOOT_SCE_MSG_DIALOG_OPEN_STUB          0x00764410
+    #define EBOOT_SCE_MSG_DIALOG_GET_RESULT_STUB    0x00764030
+    #define EBOOT_SCE_MSG_DIALOG_UPDATE_STATUS_STUB 0x00764090
+    #define EBOOT_SCE_MSG_DIALOG_TERMINATE_STUB     0x00764450
+
+    // Function Stub Pointers
+    #define EBOOT_SCE_KERNEL_USLEEP_STUB_PTR            0x083d1c0
+
+    #define EBOOT_SCE_MSG_DIALOG_GET_RESULT_STUB_PTR    0x0083d440
+    #define EBOOT_SCE_MSG_DIALOG_UPDATE_STATUS_STUB_PTR 0x0083d46f
+    #define EBOOT_SCE_MSG_DIALOG_TERMINATE_STUB_PTR     0x0083d650
+#endif
