@@ -9,6 +9,12 @@
         #define LIB_KERNEL_SCE_KERNEL_SEND_NOTIFICATION_REQUEST 0x0191c0
         #define LIB_KERNEL_SCE_KERNEL_LOAD_START_MODULE         0x029e30
         #define LIB_KERNEL_SYS_RET                              0x002b9a
+    #elif defined(FIRMWARE) && FIRMWARE == 900
+        #define LIB_KERNEL_LEAKED                               true
+        #define LIB_KERNEL_SCE_KERNEL_USLEEP                    0x014da0
+        #define LIB_KERNEL_SCE_KERNEL_SEND_NOTIFICATION_REQUEST 0x01a4e0
+        #define LIB_KERNEL_SCE_KERNEL_LOAD_START_MODULE         0x02bbd0
+        #define LIB_KERNEL_SYS_RET                              0x002baa
     #endif
 #elif defined(PS5) && PS5
     #if defined(FIRMWARE) && FIRMWARE == 650
