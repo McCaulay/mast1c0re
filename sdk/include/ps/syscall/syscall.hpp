@@ -27,6 +27,16 @@ struct stat
     unsigned int : (8 / 2) * (16 - (int)sizeof(struct timespec));
 };
 
+struct kevent
+{
+    uint64_t ident;  /* identifier for this event */
+    int16_t  filter; /* filter for event */
+    uint16_t flags;  /* action flags for kqueue */
+    uint32_t fflags; /* filter flag value */
+    uint64_t data;   /* filter data value */
+    void*    udata;  /* opaque user data identifier */
+};
+
 namespace PS
 {
     #ifdef LIB_KERNEL_LEAKED
@@ -42,6 +52,8 @@ namespace PS
     int32_t rmdir(const char* path);
     int32_t fstat(int32_t fd, struct stat* sb);
     int32_t getdents(uint32_t fd, void* dirp, uint32_t count);
+    int32_t kqueue();
+    int32_t kevent(int32_t kq, struct kevent *changelist, int32_t nchanges, struct kevent* eventlist, int32_t nevents, struct timespec* timeout);
     int32_t getFunctionAddressByName(int moduleId, char* name, void* destination);
     int32_t getSandboxDirectory(char* buffer, int* length);
     #endif

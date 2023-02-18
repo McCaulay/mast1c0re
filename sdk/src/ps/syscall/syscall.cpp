@@ -95,6 +95,16 @@ int32_t PS::getdents(uint32_t fd, void* dirp, uint32_t count)
     return (int32_t)PS::Breakout::syscall(272, fd, PVAR_TO_NATIVE(dirp), count);
 }
 
+int32_t PS::kqueue()
+{
+    return (int32_t)PS::Breakout::syscall(362);
+}
+
+int32_t kevent(int32_t kq, struct kevent *changelist, int32_t nchanges, struct kevent* eventlist, int32_t nevents, struct timespec* timeout)
+{
+    return (int32_t)PS::Breakout::syscall(363, kq, PVAR_TO_NATIVE(changelist), nchanges, PVAR_TO_NATIVE(eventlist), nevents, PVAR_TO_NATIVE(timeout));
+}
+
 int32_t PS::getFunctionAddressByName(int moduleId, char* name, void* destination)
 {
     return (int32_t)PS::Breakout::syscall(591, moduleId, PVAR_TO_NATIVE(name), PVAR_TO_NATIVE(destination));

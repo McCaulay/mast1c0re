@@ -11,6 +11,18 @@ typedef uint32_t socklen_t; /* length type for network syscalls */
 typedef uint16_t sa_family_t; /* sockaddr address family type */
 
 /*
+ * IP PROTO
+ */
+#define IPPROTO_IP      0
+#define IPPROTO_ICMP    1
+#define IPPROTO_TCP     6
+#define IPPROTO_UDP     17
+#define IPPROTO_IPV6    41
+#define IPPROTO_ICMPV6  58
+#define IPPROTO_UDPLITE 136
+#define IPPROTO_RAW     255
+
+/*
  * Definitions related to sockets: types, address families, options.
  */
 
