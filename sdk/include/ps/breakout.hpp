@@ -75,10 +75,10 @@ namespace PS
             static void sStatusBufferOverflow(uint8_t* overflow, uint32_t size);
             static void resetNStatusIndex();
             static void setOOBindex(uint32_t index);
-            static uint32_t writeOOB(uint32_t index, uint8_t value, bool ignoreZeros = false);
-            static uint32_t writeOOB(uint32_t index, uint16_t value, bool ignoreZeros = false);
-            static uint32_t writeOOB(uint32_t index, uint32_t value, bool ignoreZeros = false);
-            static uint32_t writeOOB(uint32_t index, uint64_t value, bool ignoreZeros = false);
+            static uint32_t writeOOB(uint32_t index, uint8_t value);
+            static uint32_t writeOOB(uint32_t index, uint16_t value);
+            static uint32_t writeOOB(uint32_t index, uint32_t value);
+            static uint32_t writeOOB(uint32_t index, uint64_t value);
             static void restoreReadHandler();
             static void restoreWriteHandler();
             static uint32_t callGadgetAndGetResult(uint32_t gadget, uint32_t gadgetSize);
@@ -103,6 +103,8 @@ namespace PS
             static void setR13(uint64_t r13);
             static void setR9(uint64_t r9);
         private:
+            static uint32_t nStatusIndex;
+
             static uint32_t ebootDiff;
             static uint64_t stackAddress;
             #ifdef LIB_KERNEL_LEAKED
