@@ -14,7 +14,7 @@
 #define BREAKOUT_RESTORE_RSP_OFF 0xc7ab8
 
 // PS2 ELF Loader Shared Data
-#define BREAKOUT_SHARED 0x0e00000
+#define BREAKOUT_SHARED 0x0f00000
 
 // Leaks
 #define BREAKOUT_PARTIAL_POINTER_OVERWRITE_RET 0x91
@@ -27,7 +27,7 @@
 // Must have large space before and after
 // Before: PS4/5 Stack during ROP execution
 // After:  ROP Chain
-#define ROP_CHAIN 0x0e01000
+#define ROP_CHAIN 0x0e00000
 
 // Helpers
 #define NATIVE(address) PS::Breakout::toNative(address)
