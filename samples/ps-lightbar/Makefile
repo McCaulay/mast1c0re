@@ -49,12 +49,14 @@ all: compile save
 
 save: $(SAVE_IN) $(SAVE_OUT)
 	$(SAVE_EXPLOIT) $(SAVE_IN) $(SAVE_OUT) $(BDIR)/$(TARGET)
+	rm $(BDIR)/$(TARGET)
 
 compile: sdk $(ODIR) $(BDIR) $(OBJS) crt0
 	$(CPP) $(CPPFLAGS) $(ODIR)/crt0.o $(OBJS) -L$(LIBMAST1C0RE) -l:mast1c0re.a -o $(BDIR)/$(TARGET)
 
 sdk:
-	make -B -C $(LIBMAST1C0RE) SYSTEM=$(SYSTEM) FIRMWARE=$(FIRMWARE) EBOOT=$(EBOOT)
+	make -B -C $(LIBMAST1C0RE) SYSTEM=$(SYSTEM) FIRMWARE=$(FIRMWARE_NUM) EBOOT=$(EBOOT_NUM) clean
+	make -B -C $(LIBMAST1C0RE) SYSTEM=$(SYSTEM) FIRMWARE=$(FIRMWARE_NUM) EBOOT=$(EBOOT_NUM)
 
 crt0:
 	$(CPP) $(CPPFLAGS) -c $(LIBMAST1C0RE)/crt0.S -o $(ODIR)/crt0.o
@@ -68,4 +70,4 @@ $(BDIR) $(ODIR) $(SAVE_IN) $(SAVE_OUT):
 
 .PHONY: clean
 clean:
-	rm -rf $(BDIR)/$(TARGET) $(ODIR) $(BDIR)/$(SYSTEM)
+	rm -rf $(BDIR)/$(TARGET) $(ODIR) $(BDIR)/$(SYSTEM)/$(FIRMWARE)

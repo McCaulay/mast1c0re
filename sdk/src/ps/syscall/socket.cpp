@@ -27,7 +27,7 @@ uint16_t PS::ntohs(uint16_t netshort)
     return PS::htons(netshort);
 }
 
-#ifdef LIB_KERNEL_LEAKED
+#ifdef LIB_KERNEL_SYS_RET
 int32_t PS::accept(int32_t sockfd, struct sockaddr* addr, socklen_t* addrlen)
 {
     return (int32_t)PS::Breakout::syscall(30, sockfd, PVAR_TO_NATIVE(addr), PVAR_TO_NATIVE(addrlen));

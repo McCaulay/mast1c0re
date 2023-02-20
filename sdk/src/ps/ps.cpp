@@ -8,7 +8,7 @@
 #include <ps/sce/sce.hpp>
 #include <ps/sce/libkernel.hpp>
 
-#ifdef LIB_KERNEL_LEAKED
+#if defined(NETWORK_SUPPORT) && (LIB_KERNEL_SYS_RET)
 PS::TcpClient PS::Debug = PS::TcpClient();
 #endif
 
@@ -65,7 +65,7 @@ char* PS::GetMountedGameCode()
     return PS::Memory(EBOOT(EBOOT_MOUNT_DISC_GAME_CODE)).move(0x08)->readString();
 }
 
-#ifdef LIB_KERNEL_LEAKED
+#ifdef LIB_KERNEL_SCE_KERNEL_SEND_NOTIFICATION_REQUEST
 void PS::notificationWithIcon(const char* icon, const char* format, ...)
 {
     PS::Sce::NotificationRequest request = {

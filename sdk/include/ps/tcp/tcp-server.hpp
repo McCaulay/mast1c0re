@@ -6,7 +6,7 @@
 #include <ps/sce/libkernel.hpp>
 #include <ps/tcp/tcp-client.hpp>
 
-#ifdef LIB_KERNEL_LEAKED
+#if defined(NETWORK_SUPPORT) && (LIB_KERNEL_SYS_RET)
 namespace PS
 {
     class TcpServer

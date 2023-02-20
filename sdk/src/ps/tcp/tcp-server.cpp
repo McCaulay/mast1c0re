@@ -5,7 +5,7 @@
 #include <ps/syscall/syscall.hpp>
 #include <stdarg.h>
 
-#ifdef LIB_KERNEL_LEAKED
+#if defined(NETWORK_SUPPORT) && (LIB_KERNEL_SYS_RET)
 PS::TcpServer::TcpServer()
 {
     this->sock = 0;

@@ -39,7 +39,7 @@ struct kevent
 
 namespace PS
 {
-    #ifdef LIB_KERNEL_LEAKED
+    #ifdef LIB_KERNEL_SYS_RET
     size_t read(int32_t fd, void* buf, size_t len);
     int32_t readAll(int32_t fd, void* buf, size_t len);
     size_t write(int32_t fd, void* buf, size_t len);

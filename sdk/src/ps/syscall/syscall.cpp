@@ -2,7 +2,7 @@
 #include <ps/syscall/syscall.hpp>
 #include <ps/breakout.hpp>
 
-#ifdef LIB_KERNEL_LEAKED
+#ifdef LIB_KERNEL_SYS_RET
 size_t PS::read(int32_t fd, void* buf, size_t len)
 {
     return (size_t)PS::Breakout::syscall(3, fd, PVAR_TO_NATIVE(buf), len);

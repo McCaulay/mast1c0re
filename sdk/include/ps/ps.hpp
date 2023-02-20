@@ -7,7 +7,7 @@
 
 namespace PS
 {
-    #ifdef LIB_KERNEL_LEAKED
+    #if defined(NETWORK_SUPPORT) && (LIB_KERNEL_SYS_RET)
     extern PS::TcpClient Debug;
     #endif
 
@@ -19,7 +19,7 @@ namespace PS
     void SetMountOptionFilepath(const char* filepath);
     void MountDiscWithFilepath(const char* filepath);
     char* GetMountedGameCode();
-    #ifdef LIB_KERNEL_LEAKED
+    #ifdef LIB_KERNEL_SCE_KERNEL_SEND_NOTIFICATION_REQUEST
     void notificationWithIcon(const char* icon, const char* format, ...);
     void notification(const char* format, ...);
     #endif

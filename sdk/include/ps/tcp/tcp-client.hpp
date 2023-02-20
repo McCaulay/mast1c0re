@@ -5,7 +5,7 @@
 #include <ps/syscall/socket.hpp>
 #include <ps/sce/libkernel.hpp>
 
-#ifdef LIB_KERNEL_LEAKED
+#if defined(NETWORK_SUPPORT) && (LIB_KERNEL_SYS_RET)
 namespace PS
 {
     class TcpClient

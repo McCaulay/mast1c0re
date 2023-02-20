@@ -528,7 +528,7 @@ namespace PS
     uint32_t ntohl(uint32_t netlong);
     uint16_t ntohs(uint16_t netshort);
 
-    #ifdef LIB_KERNEL_LEAKED
+    #ifdef LIB_KERNEL_SYS_RET
     int32_t accept(int32_t sockfd, struct sockaddr* addr, socklen_t* addrlen);
     int32_t bind(int32_t sockfd, struct sockaddr* addr, socklen_t addrlen);
     int32_t connect(int32_t sockfd, const struct sockaddr *addr, socklen_t addrLen);

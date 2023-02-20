@@ -66,7 +66,7 @@ namespace PS
     {
         const char* basename(const char* path);
         char* combine(const char* path, const char* basename);
-        #ifdef LIB_KERNEL_LEAKED
+        #ifdef LIB_KERNEL_SYS_RET
         bool exists(const char* filepath);
         bool deleteIfExists(const char* filepath);
         size_t getFileSize(const char* filepath);

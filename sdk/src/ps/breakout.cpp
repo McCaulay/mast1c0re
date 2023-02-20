@@ -33,7 +33,7 @@ void PS::Breakout::init()
     PS::Breakout::setupROP();
 
     // Leak LibKernel address
-    #ifdef LIB_KERNEL_LEAKED
+    #ifdef LIB_KERNEL_SCE_KERNEL_USLEEP
     PS::Breakout::shared->libKernelAddress = DEREF(EBOOT(EBOOT_SCE_KERNEL_USLEEP_STUB_PTR)) - LIB_KERNEL_SCE_KERNEL_USLEEP;
     #else
     PS::Breakout::shared->libKernelAddress = 0;
@@ -490,7 +490,7 @@ uint64_t PS::Breakout::call(uint64_t address, uint64_t rdi, uint64_t rsi, uint64
     return value;
 }
 
-#ifdef LIB_KERNEL_LEAKED
+#ifdef LIB_KERNEL_SYS_RET
 uint64_t PS::Breakout::syscall(int32_t index)
 {
     PS::Breakout::resetChain();

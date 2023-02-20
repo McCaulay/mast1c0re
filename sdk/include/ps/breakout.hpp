@@ -39,7 +39,7 @@
 
 #define EBOOT(address) PS::Breakout::eboot(address)
 #define STACK(address) PS::Breakout::stack(address)
-#ifdef LIB_KERNEL_LEAKED
+#ifdef LIB_KERNEL_SCE_KERNEL_USLEEP
     #define LIBKERNEL(address) PS::Breakout::libKernel(address)
 #endif
 #define GADGET(address) EBOOT(address)
@@ -75,7 +75,7 @@ namespace PS
             static uint64_t call(uint64_t address, uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9, uint64_t stack1);
             static uint64_t call(uint64_t address, uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9, uint64_t stack1, uint64_t stack2);
 
-            #ifdef LIB_KERNEL_LEAKED
+            #ifdef LIB_KERNEL_SYS_RET
             static uint64_t syscall(int32_t index);
             static uint64_t syscall(int32_t index, uint64_t rdi);
             static uint64_t syscall(int32_t index, uint64_t rdi, uint64_t rsi);
@@ -145,7 +145,7 @@ namespace PS
                 return address + PS::Breakout::shared->stackAddress;
             }
 
-            #ifdef LIB_KERNEL_LEAKED
+            #ifdef LIB_KERNEL_SCE_KERNEL_USLEEP
             static inline uint64_t libKernel(uint64_t address)
             {
                 return address + PS::Breakout::shared->libKernelAddress;
