@@ -37,6 +37,9 @@ $(ODIR)/%.o: $(SDIR)/%.cpp
 	@mkdir -p $(shell dirname $@)
 	$(CPP) -c -o $@ $< $(CPPFLAGS)
 
+$(ODIR):
+	@mkdir -p $(shell dirname $@)
+
 .PHONY: clean
 clean:
 	rm -rf $(TARGET) $(ODIR)/*.o $(ODIR)/*/*.o $(ODIR)/*/*/*.o $(ODIR)/*/*/*/*.o

@@ -9,6 +9,12 @@
         #define LIB_KERNEL_SCE_KERNEL_SEND_NOTIFICATION_REQUEST 0x0191c0
         #define LIB_KERNEL_SCE_KERNEL_LOAD_START_MODULE         0x029e30
         #define LIB_KERNEL_SYS_RET                              0x002b9a
+    #elif defined(FIRMWARE) && FIRMWARE == 672
+        #define LIB_KERNEL_LEAKED                               true
+        #define LIB_KERNEL_SCE_KERNEL_USLEEP                    0x0150f0
+        #define LIB_KERNEL_SCE_KERNEL_SEND_NOTIFICATION_REQUEST 0x01a9a0
+        #define LIB_KERNEL_SCE_KERNEL_LOAD_START_MODULE         0x02b920
+        #define LIB_KERNEL_SYS_RET                              0x002c4a
     #elif defined(FIRMWARE) && FIRMWARE == 900
         #define LIB_KERNEL_LEAKED                               true
         #define LIB_KERNEL_SCE_KERNEL_USLEEP                    0x014da0
@@ -20,7 +26,7 @@
         #define LIB_KERNEL_SCE_KERNEL_USLEEP                    0x014a30
         #define LIB_KERNEL_SCE_KERNEL_SEND_NOTIFICATION_REQUEST 0x01a170
         #define LIB_KERNEL_SCE_KERNEL_LOAD_START_MODULE         0x02b820
-        #define LIB_KERNEL_SYS_RET                              0x002baa + 0x10 // +0x10 libkernel.sprx address
+        #define LIB_KERNEL_SYS_RET                              0x002baa
     #endif
 #elif defined(PS5) && PS5
     #if defined(FIRMWARE) && FIRMWARE == 650
