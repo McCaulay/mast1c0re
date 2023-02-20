@@ -30,7 +30,7 @@ Note that the firmware version "0.00" means that the game save file should be co
 Compile a target sample project by changing directory to that project, then execute the `build.sh` script:
 
 ~~~
-cd samples/ps-load-game-net
+cd samples/ps-lightbar
 ./build.sh
 ~~~
 
