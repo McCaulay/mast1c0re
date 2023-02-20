@@ -42,4 +42,4 @@ $(ODIR):
 
 .PHONY: clean
 clean:
-	rm -rf $(TARGET) $(ODIR)/*.o $(ODIR)/*/*.o $(ODIR)/*/*/*.o $(ODIR)/*/*/*/*.o
+	rm -rf $(TARGET) $(ODIR)
