@@ -2,7 +2,7 @@
 
 #if (defined(PS4) && PS4) || (defined(PS5) && PS5)
 #include <types.hpp>
-#include <offsets/ps/libkernel.hpp>
+#include <ps/breakout.hpp>
 
 #define MAX_PATH 4096
 
@@ -66,7 +66,7 @@ namespace PS
     {
         const char* basename(const char* path);
         char* combine(const char* path, const char* basename);
-        #ifdef LIB_KERNEL_SYS_RET
+        #ifdef LIBKERNEL
         bool exists(const char* filepath);
         bool deleteIfExists(const char* filepath);
         size_t getFileSize(const char* filepath);

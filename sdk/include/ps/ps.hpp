@@ -2,12 +2,12 @@
 
 #if (defined(PS4) && PS4) || (defined(PS5) && PS5)
 #include <cstdint>
-#include <offsets/ps/libkernel.hpp>
+#include <ps/breakout.hpp>
 #include <ps/tcp/tcp-client.hpp>
 
 namespace PS
 {
-    #if defined(NETWORK_SUPPORT) && (LIB_KERNEL_SYS_RET)
+    #ifdef LIBKERNEL
     extern PS::TcpClient Debug;
     #endif
 
@@ -19,7 +19,7 @@ namespace PS
     void SetMountOptionFilepath(const char* filepath);
     void MountDiscWithFilepath(const char* filepath);
     char* GetMountedGameCode();
-    #ifdef LIB_KERNEL_SCE_KERNEL_SEND_NOTIFICATION_REQUEST
+    #ifdef LIBKERNEL
     void notificationWithIcon(const char* icon, const char* format, ...);
     void notification(const char* format, ...);
     #endif

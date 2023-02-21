@@ -2,7 +2,7 @@
 
 #if (defined(PS4) && PS4) || (defined(PS5) && PS5)
 #include <types.hpp>
-#include <offsets/ps/libkernel.hpp>
+#include <ps/breakout.hpp>
 
 #define IP(a, b, c, d) (((a) << 0) + ((b) << 8) + ((c) << 16) + ((d) << 24))
 #define IN_ADDR_ANY 0
@@ -528,7 +528,7 @@ namespace PS
     uint32_t ntohl(uint32_t netlong);
     uint16_t ntohs(uint16_t netshort);
 
-    #ifdef LIB_KERNEL_SYS_RET
+    #ifdef LIBKERNEL
     int32_t accept(int32_t sockfd, struct sockaddr* addr, socklen_t* addrlen);
     int32_t bind(int32_t sockfd, struct sockaddr* addr, socklen_t addrlen);
     int32_t connect(int32_t sockfd, const struct sockaddr *addr, socklen_t addrLen);

@@ -54,7 +54,7 @@ char* PS::Filesystem::combine(const char* path, const char* basename)
     return str;
 }
 
-#ifdef LIB_KERNEL_SYS_RET
+#ifdef LIBKERNEL
 bool PS::Filesystem::exists(const char* filepath)
 {
     char basename[256];

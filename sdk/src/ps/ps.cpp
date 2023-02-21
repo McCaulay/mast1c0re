@@ -8,7 +8,7 @@
 #include <ps/sce/sce.hpp>
 #include <ps/sce/libkernel.hpp>
 
-#if defined(NETWORK_SUPPORT) && (LIB_KERNEL_SYS_RET)
+#ifdef LIBKERNEL
 PS::TcpClient PS::Debug = PS::TcpClient();
 #endif
 

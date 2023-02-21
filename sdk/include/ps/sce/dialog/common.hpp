@@ -2,7 +2,6 @@
 
 #if (defined(PS4) && PS4) || (defined(PS5) && PS5)
 #include <types.hpp>
-#include <offsets/ps/libkernel.hpp>
 
 #define SCE_COMMON_DIALOG_MAGIC_NUMBER 0xC0D1A109
 

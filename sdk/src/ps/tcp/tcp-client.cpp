@@ -5,7 +5,7 @@
 #include <ps/syscall/syscall.hpp>
 #include <stdarg.h>
 
-#if defined(NETWORK_SUPPORT) && (LIB_KERNEL_SYS_RET)
+#ifdef LIBKERNEL
 PS::TcpClient::TcpClient()
 {
     this->sock = 0;

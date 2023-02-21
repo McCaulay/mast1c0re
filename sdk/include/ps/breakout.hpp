@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <offsets/ps/libkernel.hpp>
 
-#define BREAKOUT_BUSY_TIMEOUT 100000
+#define BREAKOUT_BUSY_TIMEOUT 10000
 
 // Restore Registers
 #define BREAKOUT_RESTORE_RBX 0x0000001000000090

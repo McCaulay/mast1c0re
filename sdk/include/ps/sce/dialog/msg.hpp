@@ -2,7 +2,6 @@
 
 #if (defined(PS4) && PS4) || (defined(PS5) && PS5)
 #include <types.hpp>
-#include <offsets/ps/libkernel.hpp>
 #include <ps/sce/dialog/common.hpp>
 
 #define SCE_MSG_DIALOG_BUTTON_ID_INVALID 0

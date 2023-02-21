@@ -6,7 +6,7 @@
 #include <ps/sce/libkernel.hpp>
 #include <ps/tcp/tcp-client.hpp>
 
-#if defined(NETWORK_SUPPORT) && (LIB_KERNEL_SYS_RET)
+#ifdef LIBKERNEL
 namespace PS
 {
     class TcpServer

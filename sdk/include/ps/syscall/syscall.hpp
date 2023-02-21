@@ -2,7 +2,7 @@
 
 #if (defined(PS4) && PS4) || (defined(PS5) && PS5)
 #include <types.hpp>
-#include <offsets/ps/libkernel.hpp>
+#include <ps/breakout.hpp>
 
 struct stat
 {
@@ -39,7 +39,7 @@ struct kevent
 
 namespace PS
 {
-    #ifdef LIB_KERNEL_SYS_RET
+    #ifdef LIBKERNEL
     size_t read(int32_t fd, void* buf, size_t len);
     int32_t readAll(int32_t fd, void* buf, size_t len);
     size_t write(int32_t fd, void* buf, size_t len);
@@ -47,6 +47,7 @@ namespace PS
     int32_t open(const char* path, int32_t flags, int32_t mode);
     int32_t close(int32_t fd);
     int32_t unlink(const char* path);
+    int32_t getuid();
     int32_t rename(const char* from, const char* to);
     int32_t mkdir(const char* path, int32_t mode);
     int32_t rmdir(const char* path);
@@ -54,8 +55,6 @@ namespace PS
     int32_t getdents(uint32_t fd, void* dirp, uint32_t count);
     int32_t kqueue();
     int32_t kevent(int32_t kq, struct kevent *changelist, int32_t nchanges, struct kevent* eventlist, int32_t nevents, struct timespec* timeout);
-    int32_t getFunctionAddressByName(int moduleId, char* name, void* destination);
-    int32_t getSandboxDirectory(char* buffer, int* length);
     #endif
 }
 #endif
