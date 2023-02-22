@@ -36,15 +36,10 @@ cd samples/ps-lightbar
 
 ## Next Steps
 ### Improvements
-* Upload and load config file "config-emu-ps4.txt" (https://www.psdevwiki.com/ps4/Talk:PS2_Classics_Emulator_Compatibility_List)
-* Emulator load lua file
 * Arbitary native code execution (CTurtE's mast1c0re Part 2)
 * Kernel Exploits
 * EBOOT v1.0 support
 * Additional firmware version support
-* Load PS2 games from USB
-* Load PS2 games from HDD
-* Make system calls firmware indepedent
 * Additional PS2 game save exploits for other games. (Change "okrager" binary for another game)
 
 ### Project Ideas
