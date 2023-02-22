@@ -3,57 +3,19 @@
 #include <ps/breakout.hpp>
 
 #ifdef LIBKERNEL
+#ifndef EBOOT_READ_STUB
 size_t PS::read(int32_t fd, void* buf, size_t len)
 {
     return (size_t)PS::Breakout::call(LIBKERNEL(LIB_KERNEL__READ), fd, PVAR_TO_NATIVE(buf), len);
 }
+#endif
 
-int32_t PS::readAll(int32_t fd, void* buf, size_t len)
-{
-    size_t total = 0;
-    int32_t count = 0;
-
-    while ((count = PS::read(fd, (uint8_t*)buf + total, len - total)) > 0)
-    {
-        total += count;
-        if (total >= len)
-            break;
-    }
-
-    if (total >= len)
-        return total;
-
-    if (count == -1)
-        return -1;
-
-    return total;
-}
-
+#ifndef EBOOT_WRITE_STUB
 size_t PS::write(int32_t fd, void* buf, size_t len)
 {
     return (size_t)PS::Breakout::call(LIBKERNEL(LIB_KERNEL__WRITE), fd, PVAR_TO_NATIVE(buf), len);
 }
-
-size_t PS::writeAll(int32_t fd, void* buf, size_t len)
-{
-    size_t total = 0;
-    size_t count = 0;
-
-    while ((count = PS::write(fd, (uint8_t*)buf + total, len - total)) > 0)
-    {
-        total += count;
-        if (total >= len)
-            break;
-    }
-
-    if (total >= len)
-        return total;
-
-    if (count == -1)
-        return -1;
-
-    return total;
-}
+#endif
 
 int32_t PS::open(const char* path, int32_t flags, int32_t mode)
 {
@@ -75,10 +37,12 @@ int32_t PS::getuid()
     return (int32_t)PS::Breakout::call(LIBKERNEL(LIB_KERNEL_GETUID));
 }
 
+#ifndef EBOOT_RENAME_STUB
 int32_t PS::rename(const char* from, const char* to)
 {
     return (int32_t)PS::Breakout::call(LIBKERNEL(LIB_KERNEL_RENAME), PVAR_TO_NATIVE(from), PVAR_TO_NATIVE(to));
 }
+#endif
 
 int32_t PS::mkdir(const char* path, int32_t mode)
 {

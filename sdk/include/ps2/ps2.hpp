@@ -31,7 +31,9 @@ public:
     typedef int   fVsprintf(char* str, const char* format, va_list arg);
 
     // syscalls
+    typedef void fResetEE(int flags);
     typedef void fLoadExecPS2(char* filename, int argc, char** argv);
+    typedef int  fExecPS2(void* entry, void* gp, int argc, char** argv);
     typedef int  fGetThreadId();
     typedef int  fCreateThread(PS2::ee_thread_t* thread);
     typedef int  fStartThread(int threadId, void* args);
@@ -41,6 +43,12 @@ public:
     typedef int  fTerminateThread(int threadId);
     typedef int  fDeleteThread(int threadId);
     typedef void fExit(int code);
+
+    // Sif
+    typedef int  fSifIopReset(const char*, int);
+    typedef int  fSifIopSync();
+    typedef void fSifInitRpc(int);
+    typedef void fSifExitRpc();
 
     // libmc
     typedef int fMcInit(int type);
@@ -74,7 +82,9 @@ public:
     static fVsprintf* vsprintf;
 
     // syscalls
+    static fResetEE*          ResetEE;
     static fLoadExecPS2*      LoadExecPS2;
+    static fExecPS2*          ExecPS2;
     static fGetThreadId*      GetThreadId;
     static fCreateThread*     CreateThread;
     static fStartThread*      StartThread;
@@ -84,6 +94,12 @@ public:
     static fTerminateThread*  TerminateThread;
     static fDeleteThread*     DeleteThread;
     static fExit*             Exit;
+
+    // Sif
+    static fSifIopReset* SifIopReset;
+    static fSifIopSync*  SifIopSync;
+    static fSifInitRpc*  SifInitRpc;
+    static fSifExitRpc*  SifExitRpc;
 
     // libmc
     static fMcInit*                 mcInit;

@@ -11,7 +11,9 @@
 #define PS2_VSPRINTF                  0x001f4b08
 
 // syscalls
+#define PS2_SYS_RESET_EE              0x001e4010
 #define PS2_SYS_LOAD_EXEC_PS2         0x001e4060
+#define PS2_SYS_EXEC_PS2              0x001e4070
 #define PS2_SYS_GET_THREAD_ID         0x001e4310
 #define PS2_SYS_CREATE_THREAD         0x001e4220
 #define PS2_SYS_START_THREAD          0x001e4240
@@ -22,6 +24,12 @@
 #define PS2_SYS_TERMINATE_THREAD      0x001e4270
 #define PS2_SYS_DELETE_THREAD         0x001e4230
 #define PS2_SYS_EXIT                  0x001e4040
+
+// Sif
+#define PS2_SIF_IOP_RESET             0x001e8da0
+#define PS2_SIF_IOP_SYNC              0x001e8ef8
+#define PS2_SIF_INIT_RPC              0x001e6630
+#define PS2_SIF_EXIT_RPC              0x001e67f0
 
 // libmc
 #define PS2_MC_INIT                   0x001d7790

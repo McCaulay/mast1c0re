@@ -15,7 +15,9 @@ PS2::fSprintf*  PS2::sprintf  = (PS2::fSprintf*)PS2_SPRINTF;
 PS2::fVsprintf* PS2::vsprintf = (PS2::fVsprintf*)PS2_VSPRINTF;
 
 // syscalls
+PS2::fResetEE*          PS2::ResetEE          = (PS2::fResetEE*)PS2_SYS_RESET_EE;
 PS2::fLoadExecPS2*      PS2::LoadExecPS2      = (PS2::fLoadExecPS2*)PS2_SYS_LOAD_EXEC_PS2;
+PS2::fExecPS2*          PS2::ExecPS2          = (PS2::fExecPS2*)PS2_SYS_EXEC_PS2;
 PS2::fGetThreadId*      PS2::GetThreadId      = (PS2::fGetThreadId*)PS2_SYS_GET_THREAD_ID;
 PS2::fCreateThread*     PS2::CreateThread     = (PS2::fCreateThread*)PS2_SYS_CREATE_THREAD;
 PS2::fStartThread*      PS2::StartThread      = (PS2::fStartThread*)PS2_SYS_START_THREAD;
@@ -25,6 +27,12 @@ PS2::fSuspendThread*    PS2::SuspendThread    = (PS2::fSuspendThread*)PS2_SYS_SU
 PS2::fTerminateThread*  PS2::TerminateThread  = (PS2::fTerminateThread*)PS2_SYS_TERMINATE_THREAD;
 PS2::fDeleteThread*     PS2::DeleteThread     = (PS2::fDeleteThread*)PS2_SYS_DELETE_THREAD;
 PS2::fExit*             PS2::Exit             = (PS2::fExit*)PS2_SYS_EXIT;
+
+// Sif
+PS2::fSifIopReset*      PS2::SifIopReset = (PS2::fSifIopReset*)PS2_SIF_IOP_RESET;
+PS2::fSifIopSync*       PS2::SifIopSync  = (PS2::fSifIopSync*)PS2_SIF_IOP_SYNC;
+PS2::fSifInitRpc*       PS2::SifInitRpc  = (PS2::fSifInitRpc*)PS2_SIF_INIT_RPC;
+PS2::fSifExitRpc*       PS2::SifExitRpc  = (PS2::fSifExitRpc*)PS2_SIF_EXIT_RPC;
 
 // libmc
 PS2::fMcInit*                 PS2::mcInit                 = (PS2::fMcInit*)PS2_MC_INIT;
