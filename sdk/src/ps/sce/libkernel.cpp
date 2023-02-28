@@ -109,7 +109,7 @@ int32_t PS::Sce::Kernel::GetCpumode()
     return (int32_t)PS::Breakout::call(LIBKERNEL(LIB_KERNEL_SCE_KERNEL_GET_CPUMODE));
 }
 
-int32_t PS::Sce::Kernel::LoadStartModule(char* name, size_t argc, void* argv, uint32_t flags, int32_t unk1, int32_t unk2)
+int32_t PS::Sce::Kernel::LoadStartModule(const char* name, size_t argc, void* argv, uint32_t flags, int32_t unk1, int32_t unk2)
 {
     return (int32_t)PS::Breakout::call(LIBKERNEL(LIB_KERNEL_SCE_KERNEL_LOAD_START_MODULE), PVAR_TO_NATIVE(name), argc, PVAR_TO_NATIVE(argv), flags, unk1, unk2);
 }
@@ -119,7 +119,7 @@ int32_t PS::Sce::Kernel::RandomizedPath(char* buffer, int* length)
     return (int32_t)PS::Breakout::call(LIBKERNEL(LIB_KERNEL_SCE_KERNEL_RANDOMIZED_PATH), 0, PVAR_TO_NATIVE(buffer), PVAR_TO_NATIVE(length));
 }
 
-int32_t PS::Sce::Kernel::Dlsym(int moduleId, char* name, void* destination)
+int32_t PS::Sce::Kernel::Dlsym(int moduleId, const char* name, void* destination)
 {
     return (int32_t)PS::Breakout::call(LIBKERNEL(LIB_KERNEL_SCE_KERNEL_DLSYM), moduleId, PVAR_TO_NATIVE(name), PVAR_TO_NATIVE(destination));
 }

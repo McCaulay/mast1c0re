@@ -52,9 +52,9 @@ namespace PS
             static int32_t GetCurrentCpu();
             static int32_t GetThreadName(uint32_t id, char* out);
             static int32_t GetCpumode();
-            static int32_t LoadStartModule(char* name, size_t argc, void* argv, uint32_t flags, int32_t unk1, int32_t unk2);
+            static int32_t LoadStartModule(const char* name, size_t argc, void* argv, uint32_t flags, int32_t unk1, int32_t unk2);
             static int32_t RandomizedPath(char* buffer, int* length);
-            static int32_t Dlsym(int moduleId, char* name, void* destination);
+            static int32_t Dlsym(int moduleId, const char* name, void* destination);
             #endif
         };
     }

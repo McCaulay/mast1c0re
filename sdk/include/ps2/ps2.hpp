@@ -122,10 +122,13 @@ public:
     static fMcChangeThreadPriority* mcChangeThreadPriority;
     static fMcSync*                 mcSync;
 public:
+    static int memcmp(void* p1, void* p2, int n);
     static void* memset(void* str, int c, int n);
     static void* realloc(void* ptr, unsigned int size);
     static char* strcpy(char* dest, const char* src);
     static char* strcat(char* dest, const char* src);
+    static int lastIndexOf(const char* str, char c);
+    static const char* basename(const char* path);
     static int createAndStartThread(void *(*func)(void*), void* stack, uint32_t stackSize, const char* name);
     static void killThreads();
     static char* gameCodeToPath(char* gameCode);

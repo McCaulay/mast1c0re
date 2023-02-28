@@ -6,29 +6,12 @@
 
 int PS::Filesystem::lastIndexOf(const char* str, char c)
 {
-    int len = PS2::strlen(str);
-    for (int i = len - 1; i >= 0; i--)
-    {
-        if (str[i] == c)
-            return i;
-    }
-    return -1;
+    return PS2::lastIndexOf(str, c);
 }
 
 const char* PS::Filesystem::basename(const char* path)
 {
-    // "usr" -> "usr"
-    int slash = PS::Filesystem::lastIndexOf(path, '/');
-    if (slash == -1)
-        return path;
-
-    // "/" -> "/"
-    if (PS2::strlen(path) == 1 && path[0] == '/')
-        return path;
-
-    // "/usr" -> "usr"
-    // "/EBOOT.BIN" -> "EBOOT.BIN"
-    return path + slash + 1;
+    return PS2::basename(path);
 }
 
 char* PS::Filesystem::combine(const char* path, const char* basename)

@@ -55,6 +55,16 @@ PS2::fMcRename*               PS2::mcRename               = (PS2::fMcRename*)PS2
 PS2::fMcChangeThreadPriority* PS2::mcChangeThreadPriority = (PS2::fMcChangeThreadPriority*)PS2_MC_CHANGE_THREAD_PRIORITY;
 PS2::fMcSync*                 PS2::mcSync                 = (PS2::fMcSync*)PS2_MC_SYNC;
 
+int PS2::memcmp(void* p1, void* p2, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        if (*(uint8_t*)p1 != *(uint8_t*)p2)
+            return -1;
+    }
+    return 0;
+}
+
 void* PS2::memset(void* str, int c, int n)
 {
     return ::memset(str, c, n);
@@ -83,6 +93,33 @@ char* PS2::strcat(char* dest, const char* src)
     PS2::strcpy(dest + destLen, src);
     dest[destLen + srcLen] = '\0';
     return dest;
+}
+
+int PS2::lastIndexOf(const char* str, char c)
+{
+    int len = PS2::strlen(str);
+    for (int i = len - 1; i >= 0; i--)
+    {
+        if (str[i] == c)
+            return i;
+    }
+    return -1;
+}
+
+const char* PS2::basename(const char* path)
+{
+    // "usr" -> "usr"
+    int slash = PS2::lastIndexOf(path, '/');
+    if (slash == -1)
+        return path;
+
+    // "/" -> "/"
+    if (PS2::strlen(path) == 1 && path[0] == '/')
+        return path;
+
+    // "/usr" -> "usr"
+    // "/EBOOT.BIN" -> "EBOOT.BIN"
+    return path + slash + 1;
 }
 
 int PS2::createAndStartThread(void *(*func)(void*), void* stack, uint32_t stackSize, const char* name)

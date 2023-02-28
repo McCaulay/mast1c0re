@@ -93,7 +93,6 @@ namespace PS
             PS::Sce::CommonDialog::Status getStatus();
             PS::Sce::CommonDialog::Status updateStatus();
             int32_t close();
-            int32_t terminate();
         protected:
             void setUserMessageParam(uint64_t param);
             void setProgressBarParam(uint64_t param);

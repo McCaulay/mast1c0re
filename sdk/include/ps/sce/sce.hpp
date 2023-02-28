@@ -2,6 +2,9 @@
 
 #if (defined(PS4) && PS4) || (defined(PS5) && PS5)
 #include <types.hpp>
+
+#define SCE_OK 0
+
 namespace PS
 {
     namespace Sce

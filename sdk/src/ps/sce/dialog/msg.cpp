@@ -85,11 +85,6 @@ int32_t PS::Sce::MsgDialog::close()
     return PS::Sce::MsgDialog::Close();
 }
 
-int32_t PS::Sce::MsgDialog::terminate()
-{
-    return PS::Sce::MsgDialog::Terminate();
-}
-
 void PS::Sce::MsgDialog::setUserMessageParam(uint64_t param)
 {
     this->param.userMsgParam = param;

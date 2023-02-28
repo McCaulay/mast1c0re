@@ -207,12 +207,6 @@ int32_t PS::readAll(int32_t fd, void* buf, size_t len)
             break;
     }
 
-    if (total >= len)
-        return total;
-
-    if (count == -1)
-        return -1;
-
     return total;
 }
 
@@ -227,12 +221,6 @@ size_t PS::writeAll(int32_t fd, void* buf, size_t len)
         if (total >= len)
             break;
     }
-
-    if (total >= len)
-        return total;
-
-    if (count == -1)
-        return -1;
 
     return total;
 }

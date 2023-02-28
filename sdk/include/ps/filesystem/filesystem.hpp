@@ -64,6 +64,7 @@ namespace PS
 {
     namespace Filesystem
     {
+        int lastIndexOf(const char* str, char c);
         const char* basename(const char* path);
         char* combine(const char* path, const char* basename);
         #ifdef LIBKERNEL
@@ -71,7 +72,6 @@ namespace PS
         bool deleteIfExists(const char* filepath);
         size_t getFileSize(const char* filepath);
         #endif
-        int lastIndexOf(const char* str, char c);
     };
 }
 #endif

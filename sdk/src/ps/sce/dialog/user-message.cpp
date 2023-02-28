@@ -7,6 +7,7 @@
 
 bool PS::Sce::MsgDialogUserMessage::show(const char* message, PS::Sce::MsgDialog::ButtonType type)
 {
+    PS::Sce::MsgDialog::Initialize();
     PS::Sce::MsgDialogUserMessage dialog = PS::Sce::MsgDialogUserMessage(message, type);
     dialog.open();
 
@@ -20,6 +21,7 @@ bool PS::Sce::MsgDialogUserMessage::show(const char* message, PS::Sce::MsgDialog
     PS2::memset(&result, 0, sizeof(PS::Sce::MsgDialog::Result));
     dialog.getResult(&result);
 
+    PS::Sce::MsgDialog::Terminate();
     return result.buttonId == PS::Sce::MsgDialog::ButtonId::OK_YES;
 }
 
