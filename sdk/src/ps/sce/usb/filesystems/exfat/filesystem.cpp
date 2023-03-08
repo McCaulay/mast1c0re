@@ -1,4 +1,4 @@
-#if (defined(PS4) && PS4) || (defined(PS5) && PS5)
+#if (defined(PS4) && PS4)
 #include <ps/sce/usb/filesystems/exfat/filesystem.hpp>
 #ifdef LIBKERNEL
 #include <ps/sce/usb/filesystems/exfat/entry.hpp>

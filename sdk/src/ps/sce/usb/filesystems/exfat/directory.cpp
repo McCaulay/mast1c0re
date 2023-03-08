@@ -1,4 +1,4 @@
-#if (defined(PS4) && PS4) || (defined(PS5) && PS5)
+#if (defined(PS4) && PS4)
 #include <ps/sce/usb/filesystems/exfat/directory.hpp>
 #ifdef LIBKERNEL
 exFAT::Directory::Directory() : exFAT::Record::Record()
