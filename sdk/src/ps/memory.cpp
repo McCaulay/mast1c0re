@@ -73,9 +73,41 @@ char* PS::Memory::readString(uint64_t address)
     return buffer;
 }
 
+void PS::Memory::writeStdString(uint64_t address, const char* s)
+{
+    PS::Memory::write<uint64_t>(address + 0x08, PVAR_TO_NATIVE(s)); // buffer
+    PS::Memory::write<uint64_t>(address + 0x18, PS2::strlen(s));    // length
+    PS::Memory::write<uint64_t>(address + 0x20, 0x1f);              // cap
+}
+
+char* PS::Memory::readStdString(uint64_t address)
+{
+    uint64_t length = PS::Memory::read<uint64_t>(address + 0x18);
+    uint64_t cap = PS::Memory::read<uint64_t>(address + 0x20);
+
+    // Allocate PS2 memory for string
+    char* buffer = (char*)PS2::malloc(length);
+
+    // Buffer is a pointer
+    if (cap > 0xf)
+    {
+        uint64_t s = PS::Memory::read<uint64_t>(address + 0x08);
+        return (char*)PS::Memory::read(s, buffer, length);
+    }
+
+    // Buffer itself is string data
+    return (char*)PS::Memory::read(address + 0x08, buffer, length);
+}
+
+
 PS::Memory::Memory(uint64_t address)
 {
     this->address = address;
+}
+
+uint64_t PS::Memory::getAddress()
+{
+    return this->address;
 }
 
 PS::Memory* PS::Memory::dereference()
@@ -94,4 +126,16 @@ char* PS::Memory::readString()
 {
     return PS::Memory::readString(this->address);
 }
+
+void PS::Memory::writeStdString(const char* s)
+{
+    PS::Memory::writeStdString(this->address, s);
+}
+
+char* PS::Memory::readStdString()
+{
+
+    return PS::Memory::readStdString(this->address);
+}
+
 #endif

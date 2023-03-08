@@ -15,6 +15,19 @@
     #define EBOOT_MOUNT_DISC_OPTIONS_STACK_OFFSET   0x0412AA0 // 0x7EEFFAAA0 - 0x7EEBE8000
     #define EBOOT_MOUNT_DISC_GAME_CODE              0x0845a20
 
+    // Configuration File
+    #define EBOOT_PROCESS_CONFIG_FILE_FUNC          0x043cd70
+    #define EBOOT_LOAD_LUA_SCRIPTS_FUNC             0x0465a70
+    #define EBOOT_LUA_CONFIG_DIRECTORY              0x0856ed0
+    #define EBOOT_LUA_TROPHY_DIRECTORY              0x0856f00
+    #define EBOOT_LUA_FEATURE_DIRECTORY             0x0856f30
+    #define EBOOT_LUA_TOOLING_DIRECTORY             0x0856f60
+    #define EBOOT_LUA_LOCAL_CONFIG_FILE             0x0856fc0
+
+    // Emu Command
+    #define EBOOT_EMU_COMMAND                       0x0845a68
+    #define EBOOT_EMU_COMMAND_COUNTER               0x0845a70
+
     // Function Stubs
     #define EBOOT_STRLEN_STUB                                 0x07635d0
     #define EBOOT_EXIT_STUB                                   0x0763630

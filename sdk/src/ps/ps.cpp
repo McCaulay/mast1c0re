@@ -176,11 +176,15 @@ void PS::MountDisc(uint64_t mountDiscOptions)
     PS::Breakout::call(EBOOT(EBOOT_MOUNT_DISC_FUNC), mountDiscOptions);
 }
 
+char* PS::GetMountedGameCode()
+{
+    return PS::Memory(EBOOT(EBOOT_MOUNT_DISC_GAME_CODE)).move(0x08)->readString();
+}
+
 void PS::SetMountOptionFilepath(const char* filepath)
 {
     uint64_t mountDiscOptions = STACK(EBOOT_MOUNT_DISC_OPTIONS_STACK_OFFSET);
-    PS::Memory(mountDiscOptions).move(0x10)->write<uint64_t>(PVAR_TO_NATIVE(filepath));
-    PS::Memory(mountDiscOptions).move(0x20)->write<uint64_t>(PS2::strlen(filepath));
+    PS::Memory(mountDiscOptions).move(0x08)->writeStdString(filepath);
 }
 
 void PS::MountDiscWithFilepath(const char* filepath)
@@ -189,10 +193,165 @@ void PS::MountDiscWithFilepath(const char* filepath)
     PS::MountDisc(STACK(EBOOT_MOUNT_DISC_OPTIONS_STACK_OFFSET));
 }
 
-char* PS::GetMountedGameCode()
+void PS::ProcessConfigFile(const char* filepath)
 {
-    // Get name from mounted file
-    return PS::Memory(EBOOT(EBOOT_MOUNT_DISC_GAME_CODE)).move(0x08)->readString();
+    PS::Breakout::call(EBOOT(EBOOT_PROCESS_CONFIG_FILE_FUNC), PVAR_TO_NATIVE(filepath));
+}
+
+// void PS::ReloadLuaScriptsWithDirectory(const char* directory)
+// {
+//     // LuaConfigDirectory = /app0/patches (becomes /app0/patches/SCUS-97129_config.lua)
+//     uint64_t LuaConfigDirectory = EBOOT(EBOOT_LUA_CONFIG_DIRECTORY);
+//     PS::Memory(LuaConfigDirectory).writeStdString(directory);
+
+//     // LuaTrophyDirectory = /app0/trophy_data (becomes /app0/trophy_data/SCUS-97129_trophies.lua)
+//     uint64_t LuaTrophyDirectory = EBOOT(EBOOT_LUA_TROPHY_DIRECTORY);
+//     // PS::Memory(LuaTrophyDirectory).writeStdString(directory);
+
+//     // LuaFeatureDirectory = /app0/feature_data (becomes /app0/feature_data/SCUS-97129_features.lua)
+//     uint64_t LuaFeatureDirectory = EBOOT(EBOOT_LUA_FEATURE_DIRECTORY);
+//     // PS::Memory(LuaFeatureDirectory).writeStdString(directory);
+
+//     // LuaToolingDirectory = ./tooling/%(TITLE_ID) (becomes ./tooling/SCUS-97129/SCUS-97129_tooling.lua)
+//     uint64_t LuaToolingDirectory = EBOOT(EBOOT_LUA_TOOLING_DIRECTORY);
+//     // PS::Memory(LuaToolingDirectory).writeStdString(directory);
+
+//     // LuaConfigLocalFile = ./config-local.lua
+//     // uint64_t LuaConfigLocalFile = EBOOT(EBOOT_LUA_LOCAL_CONFIG_FILE);
+
+//     PS::ReloadLuaScripts();
+// }
+
+void PS::EmuSendCommand(uint32_t emuMsgId, uint64_t arg)
+{
+    // Setup command
+    uint64_t ptr = PS::Memory(EBOOT(EBOOT_EMU_COMMAND)).dereference()->dereference()->getAddress();
+
+    PS::Memory::write<uint32_t>(ptr + 0x10, emuMsgId);
+    PS::Memory::write<uint64_t>(ptr + 0x18, arg);
+
+    // Trigger command
+    PS::Memory(EBOOT(EBOOT_EMU_COMMAND_COUNTER)).write<uint64_t>(1);
+}
+
+void PS::Snapshot_Save(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_Snapshot_Save, arg);
+}
+
+void PS::Snapshot_SaveStamped(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_Snapshot_SaveStamped, arg);
+}
+
+void PS::Snapshot_Restore(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_Snapshot_Restore, arg);
+}
+
+void PS::Snapshot_SaveCyclic(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_Snapshot_SaveCyclic, arg);
+}
+
+void PS::ResetJIT_EE(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_ResetJIT_EE, arg);
+}
+
+void PS::ResetJIT_IOP(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_ResetJIT_IOP, arg);
+}
+
+void PS::ResetJIT_VU(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_ResetJIT_VU, arg);
+}
+
+void PS::ExitNicely(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_ExitNicely, arg);
+}
+
+void PS::StopExec(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_StopExec, arg);
+}
+
+void PS::StartExec(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_StartExec, arg);
+}
+
+void PS::ToggleExec(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_ToggleExec, arg);
+}
+
+void PS::StepExec(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_StepExec, arg);
+}
+
+void PS::EnableToolingMode(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_EnableToolingMode, arg);
+}
+
+void PS::GenCoreDump(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_GenCoreDump, arg);
+}
+
+void PS::GsExternalCommand(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_GsExternalCommand, arg);
+}
+
+void PS::RestorePoint_Save(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_RestorePoint_Save, arg);
+}
+
+void PS::RestorePoint_Restore(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_RestorePoint_Restore, arg);
+}
+
+void PS::StartVKLogging(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_StartVKLogging, arg);
+}
+
+void PS::StopVKLogging(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_StopVKLogging, arg);
+}
+
+void PS::SoftReset(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_SoftReset, arg);
+}
+
+void PS::SwitchDisc(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_SwitchDisc, arg);
+}
+
+void PS::SwitchDiscSwitch(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_SwitchDiscSwitch, arg);
+}
+
+void PS::SwitchDiscClose(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_SwitchDiscClose, arg);
+}
+
+void PS::ReloadLuaScripts(uint64_t arg)
+{
+    PS::EmuSendCommand(uxMsg_ReloadLuaScripts, arg);
 }
 
 int32_t PS::readAll(int32_t fd, void* buf, size_t len)

@@ -1,8 +1,8 @@
-#if (defined(PS4) && PS4) || (defined(PS5) && PS5)
+#if (defined(PS4) && PS4)
 #include <ps/sce/libkernel.hpp>
 #ifdef LIBKERNEL
 #include <ps/sce/sce.hpp>
-#include <ps/sce/usbd.hpp>
+#include <ps/sce/usb/usbd.hpp>
 
 bool PS::Sce::Usbd::isInitialized = false;
 int PS::Sce::Usbd::libUsbd = 0;
@@ -62,9 +62,6 @@ bool PS::Sce::Usbd::Initialize()
     PS::Sce::Kernel::Dlsym(PS::Sce::Usbd::libUsbd, "sceUsbdGetConfigDescriptor", &PS::Sce::Usbd::pGetConfigDescriptor);
     PS::Sce::Kernel::Dlsym(PS::Sce::Usbd::libUsbd, "sceUsbdGetConfigDescriptorByValue", &PS::Sce::Usbd::pGetConfigDescriptorByValue);
     PS::Sce::Kernel::Dlsym(PS::Sce::Usbd::libUsbd, "sceUsbdFreeConfigDescriptor", &PS::Sce::Usbd::pFreeConfigDescriptor);
-    #elif defined(PS5) && PS5
-    // TODO - Get base address, + offsets
-    // PS::Sce::Kernel::GetModuleInfo(PS::Sce::Usbd::libUsbd, &info);
     #endif
 
     PS::Sce::Usbd::Init();
@@ -101,12 +98,6 @@ int32_t PS::Sce::Usbd::GetDeviceDescriptor(uint64_t device, PS::Sce::Usbd::Devic
     return (int32_t)PS::Breakout::call(PS::Sce::Usbd::pGetDeviceDescriptor, device, PVAR_TO_NATIVE(desc));
 }
 
-int32_t PS::Sce::Usbd::Open(uint64_t device, uint64_t* handle)
-{
-    PS::Sce::Usbd::Initialize();
-    return (int32_t)PS::Breakout::call(PS::Sce::Usbd::pOpen, device, PVAR_TO_NATIVE(handle));
-}
-
 uint64_t PS::Sce::Usbd::OpenDeviceWithVidPid(uint16_t vendorId, uint16_t productId)
 {
     PS::Sce::Usbd::Initialize();
@@ -131,27 +122,36 @@ int32_t PS::Sce::Usbd::GetConfigDescriptorByValue(uint64_t device, uint8_t bConf
     return (int32_t)PS::Breakout::call(PS::Sce::Usbd::pGetConfigDescriptorByValue, device, bConfigurationValue, PVAR_TO_NATIVE(config));
 }
 
-void PS::Sce::Usbd::FreeConfigDescriptor(Sce::Usbd::ConfigDescriptor* config)
+void PS::Sce::Usbd::FreeConfigDescriptor(uint64_t /* Sce::Usbd::ConfigDescriptor* */ config)
 {
     PS::Sce::Usbd::Initialize();
-    PS::Breakout::call(PS::Sce::Usbd::pFreeConfigDescriptor, PVAR_TO_NATIVE(config));
+    PS::Breakout::call(PS::Sce::Usbd::pFreeConfigDescriptor, config);
 }
 
 PS::Sce::Usbd::Usbd()
 {
     this->handle = 0;
-}
-
-PS::Sce::Usbd::Usbd(uint64_t device)
-{
-    PS::Sce::Usbd::Initialize();
-    PS::Sce::Usbd::Open(device, &this->handle);
+    this->vendorId = 0;
+    this->productId = 0;
 }
 
 PS::Sce::Usbd::Usbd(uint16_t vendorId, uint16_t productId)
 {
+    this->handle = 0;
+    this->vendorId = vendorId;
+    this->productId = productId;
+}
+
+bool PS::Sce::Usbd::Open()
+{
+    if (this->vendorId == 0 && this->productId == 0)
+        return false;
+
     PS::Sce::Usbd::Initialize();
-    this->handle = PS::Sce::Usbd::OpenDeviceWithVidPid(vendorId, productId);
+    if (this->IsOpen())
+        return true;
+    this->handle = PS::Sce::Usbd::OpenDeviceWithVidPid(this->vendorId, this->productId);
+    return this->IsOpen();
 }
 
 void PS::Sce::Usbd::Close()

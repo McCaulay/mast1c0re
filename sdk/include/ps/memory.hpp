@@ -21,6 +21,12 @@ namespace PS
         }
 
         template<typename T>
+        static void write(uint64_t address, uint32_t index, T value)
+        {
+            write(address + (sizeof(T) * index), value);
+        }
+
+        template<typename T>
         static T read(uint64_t address)
         {
             T value;
@@ -28,12 +34,22 @@ namespace PS
             return value;
         }
 
+        template<typename T>
+        static T read(uint64_t address, uint32_t index)
+        {
+            return read<T>(address + (sizeof(T) * index));
+        }
+
         static void write(uint64_t address, void* buffer, size_t n);
         static void* read(uint64_t address, void* buffer, size_t n);
 
         static char* readString(uint64_t address);
+
+        static void writeStdString(uint64_t address, const char* s);
+        static char* readStdString(uint64_t address);
     public:
         Memory(uint64_t address);
+        uint64_t getAddress();
         PS::Memory* dereference();
         PS::Memory* move(int64_t offset);
 
@@ -44,12 +60,27 @@ namespace PS
         }
 
         template<typename T>
+        void write(uint32_t index, T value)
+        {
+            PS::Memory::write<T>(this->address + (sizeof(T) * index), value);
+        }
+
+        template<typename T>
         T read()
         {
             return PS::Memory::read<T>(this->address);
         }
 
+        template<typename T>
+        T read(uint32_t index)
+        {
+            return PS::Memory::read<T>(this->address + (sizeof(T) * index));
+        }
+
         char* readString();
+
+        void writeStdString(const char* s);
+        char* readStdString();
     private:
         uint64_t address;
     };

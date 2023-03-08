@@ -40,6 +40,31 @@ struct kevent
     void*    udata;  /* opaque user data identifier */
 };
 
+#define uxMsg_Snapshot_Save        0x1f4
+#define uxMsg_Snapshot_SaveStamped 0x1f5
+#define uxMsg_Snapshot_Restore     0x1f6
+#define uxMsg_Snapshot_SaveCyclic  0x1f7
+#define uxMsg_ResetJIT_EE          0x1fe
+#define uxMsg_ResetJIT_IOP         0x1ff
+#define uxMsg_ResetJIT_VU          0x200
+#define uxMsg_ExitNicely           0x208
+#define uxMsg_StopExec             0x212
+#define uxMsg_StartExec            0x213
+#define uxMsg_ToggleExec           0x214
+#define uxMsg_StepExec             0x215
+#define uxMsg_EnableToolingMode    0x21c
+#define uxMsg_GenCoreDump          0x221
+#define uxMsg_GsExternalCommand    0x226
+#define uxMsg_RestorePoint_Save    0x22b
+#define uxMsg_RestorePoint_Restore 0x22c
+#define uxMsg_StartVKLogging       0x230
+#define uxMsg_StopVKLogging        0x231
+#define uxMsg_SoftReset            0x23a
+#define uxMsg_SwitchDisc           0x23b
+#define uxMsg_SwitchDiscSwitch     0x23c
+#define uxMsg_SwitchDiscClose      0x23d
+#define uxMsg_ReloadLuaScripts     0x23e
+
 namespace PS
 {
     #ifdef LIBKERNEL
@@ -82,10 +107,41 @@ namespace PS
     uint32_t getpid();
 
     int32_t PadSetLightBar(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
+
     void MountDisc(uint64_t mountDiscOptions);
+    char* GetMountedGameCode();
     void SetMountOptionFilepath(const char* filepath);
     void MountDiscWithFilepath(const char* filepath);
-    char* GetMountedGameCode();
+
+    void ProcessConfigFile(const char* filepath);
+    // void ReloadLuaScriptsWithDirectory(const char* directory);
+
+    // Emu Commands
+    void EmuSendCommand(uint32_t emuMsgId, uint64_t arg = 0);
+    void Snapshot_Save(uint64_t arg = 0);
+    void Snapshot_SaveStamped(uint64_t arg = 0);
+    void Snapshot_Restore(uint64_t arg = 0);
+    void Snapshot_SaveCyclic(uint64_t arg = 0);
+    void ResetJIT_EE(uint64_t arg = 0);
+    void ResetJIT_IOP(uint64_t arg = 0);
+    void ResetJIT_VU(uint64_t arg = 0);
+    void ExitNicely(uint64_t arg = 0);
+    void StopExec(uint64_t arg = 0);
+    void StartExec(uint64_t arg = 0);
+    void ToggleExec(uint64_t arg = 0);
+    void StepExec(uint64_t arg = 0);
+    void EnableToolingMode(uint64_t arg = 0);
+    void GenCoreDump(uint64_t arg = 0);
+    void GsExternalCommand(uint64_t arg = 0);
+    void RestorePoint_Save(uint64_t arg = 0);
+    void RestorePoint_Restore(uint64_t arg = 0);
+    void StartVKLogging(uint64_t arg = 0);
+    void StopVKLogging(uint64_t arg = 0);
+    void SoftReset(uint64_t arg = 0);
+    void SwitchDisc(uint64_t arg = 0);
+    void SwitchDiscSwitch(uint64_t arg = 0);
+    void SwitchDiscClose(uint64_t arg = 0);
+    void ReloadLuaScripts(uint64_t arg = 0);
 
     int32_t readAll(int32_t fd, void* buf, size_t len);
     size_t writeAll(int32_t fd, void* buf, size_t len);

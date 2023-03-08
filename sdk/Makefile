@@ -21,7 +21,7 @@ LINKFLAGS	= -Wl,-z,max-page-size=0x1
 CPPFLAGS	= -mno-gpopt -nostartfiles -nostdlib -nodefaultlibs -ffreestanding -I$(IDIR) $(LINKFLAGS) -D$(SYSTEM)=1 -DFIRMWARE=$(FIRMWARE_NUM) -DEBOOT_VERSION=$(EBOOT_NUM)
 
 # Files
-CPPFILES	= $(wildcard $(SDIR)/*.cpp $(SDIR)/*/*.cpp $(SDIR)/*/*/*.cpp $(SDIR)/*/*/*/*.cpp)
+CPPFILES	= $(wildcard $(SDIR)/*.cpp $(SDIR)/*/*.cpp $(SDIR)/*/*/*.cpp $(SDIR)/*/*/*/*.cpp $(SDIR)/*/*/*/*/*.cpp $(SDIR)/*/*/*/*/*/*.cpp)
 OBJS		= $(patsubst $(SDIR)/%.cpp, $(ODIR)/%.o, $(CPPFILES))
 
 # Target
