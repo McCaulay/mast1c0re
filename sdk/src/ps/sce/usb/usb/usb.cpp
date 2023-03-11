@@ -257,51 +257,8 @@ bool Usb::mount()
     if (this->sectorSize != SECTOR_SIZE)
         return false;
 
-    // Read master boot record table
-    MasterBootRecordTable mbr;
-    if (!this->readSector(0, (uint8_t*)&mbr))
-    {
-        PS::Debug.printf("Failed to read master boot record\n");
-        return false;
-    }
-
-    // Validate master boot record
-    if (!mbr.isValid())
-    {
-        PS::Debug.printf("Master boot record is invalid\n");
-        return false;
-    }
-
-    // Loop each partition
-    bool filesystemFound = false;
-    for (uint32_t i = 0; i < mbr.getMaxParitionCount(); i++)
-    {
-        MasterBootRecord partition = mbr.getParition(i);
-        if (partition.isEmpty())
-            continue;
-
-        // Determine partition filesystem type
-        uint8_t bootSector[SECTOR_SIZE];
-        if (!this->readSector(partition.logicalBlockAddress, bootSector))
-            continue;
-
-        // https://en.wikipedia.org/wiki/BIOS_parameter_block
-
-        // exFAT
-        if (PS2::memcmp(bootSector + 0x03, (void*)"EXFAT   ", 8) == 0)
-        {
-            this->partition = partition;
-            this->filesystem = exFAT::Filesystem(&this->massStore, this->partition.logicalBlockAddress, *(exFAT::BootSector*)bootSector);
-            filesystemFound = true;
-            break;
-        }
-
-        // Unhandled filesystem
-        continue;
-    }
-
-    // Failed to find filesystem
-    if (!filesystemFound)
+    // Find filesystem
+    if (!this->findFilesystem())
     {
         PS::Debug.printf("Failed to find exFAT filesystem\n");
         return false;
@@ -429,6 +386,68 @@ bool Usb::readSectors(uint32_t blockAddress, uint8_t* buffer, uint32_t count)
     if (error != SCE_OK)
         PS::Debug.printf("Mass Store read block failed with error 0x%x\n", error);
     return error == SCE_OK;
+}
+
+bool Usb::isSectorExFAT(uint8_t* sector)
+{
+    // https://en.wikipedia.org/wiki/BIOS_parameter_block
+
+    // exFAT
+    return PS2::memcmp(sector + 0x03, (void*)"EXFAT   ", 8) == 0;
+}
+
+bool Usb::findFilesystem()
+{
+    // Read boot sector
+    uint8_t bootSector[SECTOR_SIZE];
+    if (!this->readSector(0, bootSector))
+    {
+        PS::Debug.printf("Failed to read boot sector\n");
+        return false;
+    }
+
+    // exFAT is in boot sector with no partition table
+    if (this->isSectorExFAT(bootSector))
+    {
+        this->filesystem = exFAT::Filesystem(&this->massStore, 0, *(exFAT::BootSector*)bootSector);
+        return true;
+    }
+
+    // Read boot sector as master boot record table
+    MasterBootRecordTable mbr = *(MasterBootRecordTable*)bootSector;
+
+    // Validate master boot record
+    if (!mbr.isValid())
+    {
+        PS::Debug.printf("Master boot record is invalid\n");
+        return false;
+    }
+
+    // Loop each partition
+    for (uint32_t i = 0; i < mbr.getMaxParitionCount(); i++)
+    {
+        MasterBootRecord partition = mbr.getParition(i);
+        if (partition.isEmpty())
+            continue;
+
+        // Determine partition filesystem type
+        if (!this->readSector(partition.logicalBlockAddress, bootSector))
+            continue;
+
+        // exFAT check
+        if (this->isSectorExFAT(bootSector))
+        {
+            this->partition = partition;
+            this->filesystem = exFAT::Filesystem(&this->massStore, this->partition.logicalBlockAddress, *(exFAT::BootSector*)bootSector);
+            return true;
+        }
+
+        // Unhandled filesystem
+        continue;
+    }
+
+    // Failed to find exFAT filesystem
+    return false;
 }
 #endif
 #endif

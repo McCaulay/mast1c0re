@@ -304,6 +304,8 @@ bool exFAT::Filesystem::readNextCluster(exFAT::File file, uint8_t* buffer)
 
     uint32_t sectorIndex = this->getSectorIndexForCluster(this->readClusterIndex);
     bool valid = this->readCluster(sectorIndex, buffer);
+    if (!valid)
+        PS::Debug.printf("Failed to read cluster at sector index: %i\n", sectorIndex);
 
     if (file.isContinuous())
         this->readClusterIndex++;

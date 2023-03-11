@@ -87,7 +87,10 @@ int32_t PS::MassStore::readBlock(uint32_t blockAddress, uint16_t blocks, uint16_
 
     int32_t err = this->command(&command, buffer);
     if (err != SCE_OK)
+    {
+        PS::Debug.printf("PS::MassStore::readBlock: command error 0x%x\n", err);
         return err;
+    }
 
     SCSI::CommandStatus status;
     return this->getReturnedStatus(&status);

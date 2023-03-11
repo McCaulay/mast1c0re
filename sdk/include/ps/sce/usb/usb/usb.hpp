@@ -41,6 +41,8 @@ private:
     bool updateDescriptors();
     bool readSector(uint32_t blockAddress, uint8_t* buffer);
     bool readSectors(uint32_t blockAddress, uint8_t* buffer, uint32_t count = 1);
+    bool isSectorExFAT(uint8_t* sector);
+    bool findFilesystem();
 private:
     static uint64_t devices;
 private:
