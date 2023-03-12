@@ -127,6 +127,9 @@ public:
     static void* realloc(void* ptr, unsigned int size);
     static char* strcpy(char* dest, const char* src);
     static char* strcat(char* dest, const char* src);
+    static bool contains(const char* str, const char* c);
+    static int indexOf(const char* str, const char* c, int fromOffset = 0);
+    static int indexOf(const char* str, char c, int fromOffset = 0);
     static int lastIndexOf(const char* str, char c);
     static const char* basename(const char* path);
     static int createAndStartThread(void *(*func)(void*), void* stack, uint32_t stackSize, const char* name);

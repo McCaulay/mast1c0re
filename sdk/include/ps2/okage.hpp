@@ -1,11 +1,12 @@
 #pragma once
+#include <types.hpp>
 
 class Okage
 {
 public:
     typedef int fMemoryCardOpen(const char* name, int mode);
-    typedef void fMemoryCardRead(int fd, char* buffer, int size);
-    typedef void fMemoryCardWrite(int fd, char* buffer, int size);
+    typedef void fMemoryCardRead(int fd, uint8_t* buffer, int size);
+    typedef void fMemoryCardWrite(int fd, uint8_t* buffer, int size);
     typedef void fMemoryCardSeek(int fd, int offset, int origin);
     typedef void fMemoryCardClose(int fd);
 public:

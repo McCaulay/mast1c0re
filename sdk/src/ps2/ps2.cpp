@@ -95,6 +95,34 @@ char* PS2::strcat(char* dest, const char* src)
     return dest;
 }
 
+bool PS2::contains(const char* str, const char* c)
+{
+    return PS2::indexOf(str, c) != -1;
+}
+
+int PS2::indexOf(const char* str, const char* c, int fromOffset)
+{
+    int len = PS2::strlen(str);
+    int cLen = PS2::strlen(c);
+    for (int i = fromOffset; i < len; i++)
+    {
+        if (PS2::memcmp((void*)(str + i), (void*)c, cLen) == 0)
+            return i;
+    }
+    return -1;
+}
+
+int PS2::indexOf(const char* str, char c, int fromOffset)
+{
+    int len = PS2::strlen(str);
+    for (int i = fromOffset; i < len; i++)
+    {
+        if (str[i] == c)
+            return i;
+    }
+    return -1;
+}
+
 int PS2::lastIndexOf(const char* str, char c)
 {
     int len = PS2::strlen(str);
