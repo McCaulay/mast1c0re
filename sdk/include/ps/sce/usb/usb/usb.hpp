@@ -51,6 +51,8 @@ private:
     uint16_t pid;
     uint8_t endpointIn;
     uint8_t endpointOut;
+    uint16_t endpointInMaxPacket;
+    uint16_t endpointOutMaxPacket;
     PS::Sce::Usbd usbd;
     PS::MassStore massStore;
     MasterBootRecord partition;

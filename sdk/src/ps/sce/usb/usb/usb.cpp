@@ -36,6 +36,8 @@ Usb::Usb()
     this->pid = 0;
     this->endpointIn = 0;
     this->endpointOut = 0;
+    this->endpointInMaxPacket = 0;
+    this->endpointOutMaxPacket = 0;
     this->usbd = PS::Sce::Usbd();
     this->massStore = PS::MassStore(&this->usbd);
     this->mounted = false;
@@ -55,6 +57,8 @@ Usb::Usb(uint64_t device)
     this->pid = 0;
     this->endpointIn = 0;
     this->endpointOut = 0;
+    this->endpointInMaxPacket = 0;
+    this->endpointOutMaxPacket = 0;
     this->usbd = PS::Sce::Usbd();
     this->massStore = PS::MassStore(&this->usbd);
     this->mounted = false;
@@ -74,6 +78,8 @@ Usb::Usb(uint16_t vid, uint16_t pid)
     this->pid = pid;
     this->endpointIn = 0;
     this->endpointOut = 0;
+    this->endpointInMaxPacket = 0;
+    this->endpointOutMaxPacket = 0;
     this->usbd = PS::Sce::Usbd(this->vid, this->pid);
     this->massStore = PS::MassStore(&this->usbd);
     this->mounted = false;
@@ -190,13 +196,22 @@ bool Usb::updateDescriptors()
                     PS::Debug.printf("                  Type:       0x%02x\n", endpoint.descriptorType);
                     PS::Debug.printf("                  Address:    0x%02x\n", endpoint.endpointAddress);
                     PS::Debug.printf("                  Attributes: 0x%02x\n", endpoint.attributes);
+                    PS::Debug.printf("                  Max Packet Size: 0x%04x\n", endpoint.maxPacketSize);
+                    PS::Debug.printf("                  Polling Interval: 0x%02x\n", endpoint.interval);
+                    PS::Debug.printf("                  Refresh: 0x%02x\n", endpoint.refresh);
 
                     if ((endpoint.attributes & LIBUSB_TRANSFER_TYPE_MASK) & (LIBUSB_TRANSFER_TYPE_BULK | LIBUSB_TRANSFER_TYPE_INTERRUPT))
                     {
                         if (endpoint.endpointAddress & LIBUSB_ENDPOINT_IN)
+                        {
                             this->endpointIn = this->endpointIn ? this->endpointIn : endpoint.endpointAddress;
+                            this->endpointInMaxPacket = this->endpointInMaxPacket ? this->endpointInMaxPacket : endpoint.maxPacketSize;
+                        }
                         else
+                        {
                             this->endpointOut = this->endpointOut ? this->endpointOut : endpoint.endpointAddress;
+                            this->endpointOutMaxPacket = this->endpointOutMaxPacket ? this->endpointOutMaxPacket : endpoint.maxPacketSize;
+                        }
                     }
                 }
             }
@@ -229,6 +244,10 @@ bool Usb::mount()
         return false;
 
     PS::Debug.printf("Mounting USB: VID=%04x, PID=%04x\n", this->vid, this->pid);
+
+    // Get max logical unit number (LUN)
+    uint8_t lun = this->massStore.updateLUN();
+    PS::Debug.printf("LUN: %i\n", lun);
 
     SCSI::Inquiry inquiry;
     if (this->massStore.inquiry(&inquiry) != SCE_OK)

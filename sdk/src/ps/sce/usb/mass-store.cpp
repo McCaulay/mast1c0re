@@ -12,6 +12,7 @@ PS::MassStore::MassStore()
     this->usbd = nullptr;
     this->endpointIn = 0;
     this->endpointOut = 0;
+    this->lun = 0;
 }
 
 PS::MassStore::MassStore(PS::Sce::Usbd* usbd, uint8_t endpointIn, uint8_t endpointOut)
@@ -19,6 +20,17 @@ PS::MassStore::MassStore(PS::Sce::Usbd* usbd, uint8_t endpointIn, uint8_t endpoi
     this->usbd = usbd;
     this->endpointIn = endpointIn;
     this->endpointOut = endpointOut;
+    this->lun = 0;
+}
+
+uint8_t PS::MassStore::updateLUN()
+{
+    if (this->usbd == nullptr)
+        return this->lun;
+
+    int32_t err = this->usbd->ControlTransfer(MASS_STORE_COMMAND_DIRECTION_DATA_IN | LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE, MASS_STORE_BOMS_GET_MAX_LUN, 0, 0, &this->lun, sizeof(lun), SCE_USBD_CONTROL_TIMEOUT);
+    this->lun = err == SCE_OK ? lun : 0;
+    return this->lun;
 }
 
 int32_t PS::MassStore::inquiry(SCSI::Inquiry* inquiry)
@@ -27,7 +39,7 @@ int32_t PS::MassStore::inquiry(SCSI::Inquiry* inquiry)
         .signature = MASS_STORE_CBW_SIGNATURE,
         .dataTransferLength = sizeof(SCSI::Inquiry),
         .flags = MASS_STORE_COMMAND_DIRECTION_DATA_IN,
-        .lun = 0,
+        .lun = this->lun,
         .scsiCommandLength = 6,
         .scsiCommandData = { SCSI_CMD_INQUIRY, 0x00, 0x00, 0x00, sizeof(SCSI::Inquiry), 0x00 }
     };
@@ -46,7 +58,7 @@ int32_t PS::MassStore::readCapacity(SCSI::Capacity* capacity)
         .signature = MASS_STORE_CBW_SIGNATURE,
         .dataTransferLength = sizeof(SCSI::Capacity),
         .flags = MASS_STORE_COMMAND_DIRECTION_DATA_IN,
-        .lun = 0,
+        .lun = this->lun,
         .scsiCommandLength = 10,
         .scsiCommandData = { SCSI_CMD_READ_CAPACITY_10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
     };
@@ -69,7 +81,7 @@ int32_t PS::MassStore::readBlock(uint32_t blockAddress, uint16_t blocks, uint16_
         .signature = MASS_STORE_CBW_SIGNATURE,
         .dataTransferLength = (uint32_t)blocks * (uint32_t)blockSize,
         .flags = MASS_STORE_COMMAND_DIRECTION_DATA_IN,
-        .lun = 0,
+        .lun = this->lun,
         .scsiCommandLength = 10,
         .scsiCommandData = {
             SCSI_CMD_READ_10,

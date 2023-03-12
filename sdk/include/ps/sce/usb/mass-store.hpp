@@ -19,6 +19,9 @@
 #define MASS_STORE_BULK_ONLY_DEFAULT_ENDPOINT_IN  0x81
 #define MASS_STORE_BULK_ONLY_DEFAULT_ENDPOINT_OUT 0x02
 
+#define MASS_STORE_BOMS_RESET       0xFF
+#define MASS_STORE_BOMS_GET_MAX_LUN 0xFE
+
 namespace PS
 {
     class MassStore
@@ -27,6 +30,7 @@ namespace PS
         MassStore();
         MassStore(PS::Sce::Usbd* usbd, uint8_t endpointIn = 0, uint8_t endpointOut = 0);
 
+        uint8_t updateLUN();
         int32_t inquiry(SCSI::Inquiry* inquiry);
         int32_t readCapacity(SCSI::Capacity* capacity);
         int32_t readBlock(uint32_t blockAddress, uint16_t blocks, uint16_t blockSize, uint8_t* buffer);
@@ -39,6 +43,7 @@ namespace PS
     private:
         static uint32_t tag;
     private:
+        uint8_t lun;
         PS::Sce::Usbd* usbd;
         uint8_t endpointIn;
         uint8_t endpointOut;
