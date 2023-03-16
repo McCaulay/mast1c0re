@@ -7,6 +7,10 @@
     #define IO_REGISTER_READ_HANDLER_ORIGINAL 0x005a9d60
     #define INTERRUPT_WRITE_HANDLER_ORIGINAL  0x0047da10
 
+    // Threads
+    #define EBOOT_THREAD_TROPHY_PUMP            0x00856348
+    #define EBOOT_SEND_TROPHY_PUMP_COMMAND_FUNC 0x004e6c60
+
     // Game Pad Handles
     #define EBOOT_PADS                        0x1d26890
 

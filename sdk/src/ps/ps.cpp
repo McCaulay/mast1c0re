@@ -171,6 +171,11 @@ int32_t PS::PadSetLightBar(uint8_t red, uint8_t green, uint8_t blue, uint8_t alp
     return PS::Sce::PadSetLightBar(handle, &colour);
 }
 
+void PS::SendTrophyPumpCommand(uint32_t command, uint64_t handle, uint64_t trophyId)
+{
+    PS::Breakout::call(EBOOT(EBOOT_SEND_TROPHY_PUMP_COMMAND_FUNC), command, handle, trophyId);
+}
+
 void PS::MountDisc(uint64_t mountDiscOptions)
 {
     PS::Breakout::call(EBOOT(EBOOT_MOUNT_DISC_FUNC), mountDiscOptions);

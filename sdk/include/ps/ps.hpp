@@ -108,6 +108,8 @@ namespace PS
 
     int32_t PadSetLightBar(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
 
+    void SendTrophyPumpCommand(uint32_t command, uint64_t handle, uint64_t trophyId);
+
     void MountDisc(uint64_t mountDiscOptions);
     char* GetMountedGameCode();
     void SetMountOptionFilepath(const char* filepath);

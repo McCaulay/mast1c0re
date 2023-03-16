@@ -5,6 +5,11 @@
 #include <ps2/cdvd.hpp>
 #include <offsets/ps/eboot/eboot.hpp>
 
+namespace PS
+{
+    void SendTrophyPumpCommand(uint32_t command, uint64_t handle, uint64_t trophyId);
+}
+
 PS::Breakout::Shared* PS::Breakout::shared = (PS::Breakout::Shared*)BREAKOUT_SHARED;
 uint32_t PS::Breakout::nStatusIndex = 0;
 
@@ -43,6 +48,9 @@ void PS::Breakout::init()
     PS::Breakout::shared->gadgetRet = GADGET(RET);
     PS::Breakout::shared->gadgetPopRaxRet = GADGET(POP_RAX_RET);
     PS::Breakout::shared->gadgetPopRbxRet = GADGET(POP_RBX_RET);
+
+    // Exit trophy thread
+    PS::SendTrophyPumpCommand(2002, 0, 0);
 }
 
 void PS::Breakout::restore()
