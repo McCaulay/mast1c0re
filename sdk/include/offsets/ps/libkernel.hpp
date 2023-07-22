@@ -14,8 +14,8 @@
         #define LIB_KERNEL_SYS_RET 0x2baa
     #elif defined(FIRMWARE) && FIRMWARE == 1001
         #include <offsets/ps/libkernel/ps4/10.01.hpp>
-    #elif defined(FIRMWARE) && FIRMWARE == 1050
-        #include <offsets/ps/libkernel/ps4/10.50.hpp>
+    #elif defined(FIRMWARE) && (FIRMWARE == 1050 || FIRMWARE == 1070)
+        #include <offsets/ps/libkernel/ps4/10.50_10.70.hpp>
     #endif
 #elif defined(PS5) && PS5
     #if defined(FIRMWARE) && FIRMWARE == 650
