@@ -7,7 +7,7 @@ void main()
     Okage::clearScreenText();
 
     const char* dumpFile = "BASCUS-97129/dump.bin";
-    char* dumpAddress = (char*)OKAGE_LOVE_FLAG;
+    uint8_t* dumpAddress = (uint8_t*)OKAGE_LOVE_FLAG;
 
     // Dump memory to MC
     int fd = Okage::MemoryCardOpen(dumpFile, 1539);
@@ -17,7 +17,7 @@ void main()
         return;
     }
 
-    Okage::MemoryCardWrite(fd, dumpAddress, PS2::strlen(dumpAddress));
+    Okage::MemoryCardWrite(fd, dumpAddress, PS2::strlen((const char*)dumpAddress));
     Okage::MemoryCardClose(fd);
     Okage::printf("\"%s\" dumped to %s\\n", dumpAddress, dumpFile);
 }
