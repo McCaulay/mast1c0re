@@ -75,7 +75,7 @@ namespace PS
             static uint64_t call(uint64_t address, uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9, uint64_t stack1);
             static uint64_t call(uint64_t address, uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9, uint64_t stack1, uint64_t stack2);
 
-            #ifdef LIB_KERNEL_SYS_RET
+            #ifdef LIB_KERNEL_SYS_RET_ERROR
             static uint64_t syscall(int32_t index);
             static uint64_t syscall(int32_t index, uint64_t rdi);
             static uint64_t syscall(int32_t index, uint64_t rdi, uint64_t rsi);

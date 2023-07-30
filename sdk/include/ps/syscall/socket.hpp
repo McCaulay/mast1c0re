@@ -528,34 +528,32 @@ namespace PS
     uint32_t ntohl(uint32_t netlong);
     uint16_t ntohs(uint16_t netshort);
 
-    #ifdef LIBKERNEL
+    #if defined(LIBKERNEL) || defined(LIB_KERNEL_SYS_RET_ERROR)
     int32_t accept(int32_t sockfd, struct sockaddr* addr, socklen_t* addrlen);
     int32_t bind(int32_t sockfd, struct sockaddr* addr, socklen_t addrlen);
     int32_t connect(int32_t sockfd, const struct sockaddr *addr, socklen_t addrLen);
-    // int getpeername(int, struct sockaddr *, socklen_t *);
-    // int getsockname(int, struct sockaddr *, socklen_t *);
     int32_t getsockopt(int32_t sockfd, int32_t level, int32_t optname, void *optval, socklen_t *optlen);
     int32_t listen(int32_t sockfd, int32_t backlog);
+    int32_t setsockopt(int32_t sockfd, int32_t level, int32_t optname, void *optval, socklen_t optlen);
+    int32_t socket(int32_t domain, int32_t type, int32_t protocol);
+    #endif
+
+    // int getpeername(int, struct sockaddr *, socklen_t *);
+    // int getsockname(int, struct sockaddr *, socklen_t *);
     // ssize_t recv(int, void *, size_t, int);
     // ssize_t recvfrom(int, void *, size_t, int, struct sockaddr *, socklen_t *);
     // ssize_t recvmsg(int, struct msghdr *, int);
     // int recvmmsg(int, struct mmsghdr *, unsigned int, int, struct timespec *);
     // ssize_t send(int, const void *, size_t, int);
-    // ssize_t sendto(int, const void *,
-    //      size_t, int, const struct sockaddr *, socklen_t);
+    // ssize_t sendto(int, const void *, size_t, int, const struct sockaddr *, socklen_t);
     // ssize_t sendmsg(int, const struct msghdr *, int);
     // int sendmmsg(int, struct mmsghdr *, unsigned int, int);
-    int32_t setsockopt(int32_t sockfd, int32_t level, int32_t optname, void *optval, socklen_t optlen);
     // int shutdown(int, int);
     // int sockatmark(int);
-    int32_t socket(int32_t domain, int32_t type, int32_t protocol);
     // int socketpair(int, int, int, int *);
-
     // int accept4(int, struct sockaddr *__restrict, socklen_t *__restrict, int);
-
     // int getpeereid(int, uid_t *, gid_t *);
     // int getrtable(void);
     // int setrtable(int);
-    #endif
 }
 #endif

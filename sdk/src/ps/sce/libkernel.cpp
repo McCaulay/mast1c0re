@@ -1,5 +1,6 @@
 #if (defined(PS4) && PS4) || (defined(PS5) && PS5)
 #include <ps/sce/libkernel.hpp>
+#include <ps/syscall/table.hpp>
 #include <ps/breakout.hpp>
 #include <offsets/ps/eboot/eboot.hpp>
 
@@ -113,15 +114,25 @@ int32_t PS::Sce::Kernel::LoadStartModule(const char* name, size_t argc, void* ar
 {
     return (int32_t)PS::Breakout::call(LIBKERNEL(LIB_KERNEL_SCE_KERNEL_LOAD_START_MODULE), PVAR_TO_NATIVE(name), argc, PVAR_TO_NATIVE(argv), flags, unk1, unk2);
 }
+#endif
 
+#if defined(LIBKERNEL) || defined(LIB_KERNEL_SYS_RET_ERROR)
 int32_t PS::Sce::Kernel::RandomizedPath(char* buffer, int* length)
 {
+    #if defined(LIBKERNEL)
     return (int32_t)PS::Breakout::call(LIBKERNEL(LIB_KERNEL_SCE_KERNEL_RANDOMIZED_PATH), 0, PVAR_TO_NATIVE(buffer), PVAR_TO_NATIVE(length));
+    #elif defined(LIB_KERNEL_SYS_RET_ERROR)
+    return (int32_t)PS::Breakout::syscall(SYS_RANDOMIZED_PATH, 0, PVAR_TO_NATIVE(buffer), PVAR_TO_NATIVE(length));
+    #endif
 }
 
 int32_t PS::Sce::Kernel::Dlsym(int moduleId, const char* name, void* destination)
 {
+    #if defined(LIBKERNEL)
     return (int32_t)PS::Breakout::call(LIBKERNEL(LIB_KERNEL_SCE_KERNEL_DLSYM), moduleId, PVAR_TO_NATIVE(name), PVAR_TO_NATIVE(destination));
+    #elif defined(LIB_KERNEL_SYS_RET_ERROR)
+    return (int32_t)PS::Breakout::syscall(SYS_DYNLIB_DLSYM, moduleId, PVAR_TO_NATIVE(name), PVAR_TO_NATIVE(destination));
+    #endif
 }
 #endif
 #endif

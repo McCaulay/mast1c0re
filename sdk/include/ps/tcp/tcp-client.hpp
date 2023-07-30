@@ -5,7 +5,7 @@
 #include <ps/syscall/socket.hpp>
 #include <ps/sce/libkernel.hpp>
 
-#ifdef LIBKERNEL
+#if defined(LIBKERNEL) || defined(LIB_KERNEL_SYS_RET_ERROR)
 namespace PS
 {
     class TcpClient

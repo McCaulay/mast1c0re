@@ -37,7 +37,7 @@ char* PS::Filesystem::combine(const char* path, const char* basename)
     return str;
 }
 
-#ifdef LIBKERNEL
+#if defined(LIBKERNEL) || defined(LIB_KERNEL_SYS_RET_ERROR)
 bool PS::Filesystem::exists(const char* filepath)
 {
     char basename[256];
@@ -110,12 +110,15 @@ bool PS::Filesystem::deleteIfExists(const char* filepath)
 
 size_t PS::Filesystem::getFileSize(const char* filepath)
 {
+    PS::Debug.printf("before open\n");
     int32_t fd = PS::open(filepath, O_RDONLY, 0);
     if (fd <= 0)
         return 0;
 
+    PS::Debug.printf("before fstat\n");
     struct stat s;
     PS::fstat(fd, &s);
+    PS::Debug.printf("before close\n");
     PS::close(fd);
     return s.st_size;
 }

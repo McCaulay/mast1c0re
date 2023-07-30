@@ -499,54 +499,60 @@ uint64_t PS::Breakout::call(uint64_t address, uint64_t rdi, uint64_t rsi, uint64
     return value;
 }
 
-#ifdef LIB_KERNEL_SYS_RET
+#ifdef LIB_KERNEL_SYS_RET_ERROR
 uint64_t PS::Breakout::syscall(int32_t index)
 {
+    uint64_t address = DEREF(EBOOT(EBOOT_ERROR_STUB_PTR)) - LIB_KERNEL_SYS_RET_ERROR;
     PS::Breakout::resetChain();
     PS::Breakout::setRAX((uint64_t)index);
-    return PS::Breakout::executeAndGetResult(LIBKERNEL(LIB_KERNEL_SYS_RET));
+    return PS::Breakout::executeAndGetResult(address);
 }
 
 uint64_t PS::Breakout::syscall(int32_t index, uint64_t rdi)
 {
+    uint64_t address = DEREF(EBOOT(EBOOT_ERROR_STUB_PTR)) - LIB_KERNEL_SYS_RET_ERROR;
     PS::Breakout::resetChain();
     PS::Breakout::setRAX((uint64_t)index);
     PS::Breakout::setRDI(rdi);
-    return PS::Breakout::executeAndGetResult(LIBKERNEL(LIB_KERNEL_SYS_RET));
+    return PS::Breakout::executeAndGetResult(address);
 }
 
 uint64_t PS::Breakout::syscall(int32_t index, uint64_t rdi, uint64_t rsi)
 {
+    uint64_t address = DEREF(EBOOT(EBOOT_ERROR_STUB_PTR)) - LIB_KERNEL_SYS_RET_ERROR;
     PS::Breakout::resetChain();
     PS::Breakout::setRAX((uint64_t)index);
     PS::Breakout::setRDI(rdi);
     PS::Breakout::setRSI(rsi);
-    return PS::Breakout::executeAndGetResult(LIBKERNEL(LIB_KERNEL_SYS_RET));
+    return PS::Breakout::executeAndGetResult(address);
 }
 
 uint64_t PS::Breakout::syscall(int32_t index, uint64_t rdi, uint64_t rsi, uint64_t rdx)
 {
+    uint64_t address = DEREF(EBOOT(EBOOT_ERROR_STUB_PTR)) - LIB_KERNEL_SYS_RET_ERROR;
     PS::Breakout::resetChain();
     PS::Breakout::setRDX(rdx);
     PS::Breakout::setRAX((uint64_t)index);
     PS::Breakout::setRDI(rdi);
     PS::Breakout::setRSI(rsi);
-    return PS::Breakout::executeAndGetResult(LIBKERNEL(LIB_KERNEL_SYS_RET));
+    return PS::Breakout::executeAndGetResult(address);
 }
 
 uint64_t PS::Breakout::syscall(int32_t index, uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx)
 {
+    uint64_t address = DEREF(EBOOT(EBOOT_ERROR_STUB_PTR)) - LIB_KERNEL_SYS_RET_ERROR;
     PS::Breakout::resetChain();
     PS::Breakout::setRDX(rdx);
     PS::Breakout::setRAX((uint64_t)index);
     PS::Breakout::setRDI(rdi);
     PS::Breakout::setRSI(rsi);
     PS::Breakout::setRCX(rcx);
-    return PS::Breakout::executeAndGetResult(LIBKERNEL(LIB_KERNEL_SYS_RET));
+    return PS::Breakout::executeAndGetResult(address);
 }
 
 uint64_t PS::Breakout::syscall(int32_t index, uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8)
 {
+    uint64_t address = DEREF(EBOOT(EBOOT_ERROR_STUB_PTR)) - LIB_KERNEL_SYS_RET_ERROR;
     PS::Breakout::resetChain();
     PS::Breakout::setR8(r8);
     PS::Breakout::setRDX(rdx);
@@ -554,11 +560,12 @@ uint64_t PS::Breakout::syscall(int32_t index, uint64_t rdi, uint64_t rsi, uint64
     PS::Breakout::setRDI(rdi);
     PS::Breakout::setRSI(rsi);
     PS::Breakout::setRCX(rcx);
-    return PS::Breakout::executeAndGetResult(LIBKERNEL(LIB_KERNEL_SYS_RET));
+    return PS::Breakout::executeAndGetResult(address);
 }
 
 uint64_t PS::Breakout::syscall(int32_t index, uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
+    uint64_t address = DEREF(EBOOT(EBOOT_ERROR_STUB_PTR)) - LIB_KERNEL_SYS_RET_ERROR;
     PS::Breakout::resetChain();
     PS::Breakout::setR9(r9);
     PS::Breakout::setR8(r8);
@@ -567,7 +574,7 @@ uint64_t PS::Breakout::syscall(int32_t index, uint64_t rdi, uint64_t rsi, uint64
     PS::Breakout::setRDI(rdi);
     PS::Breakout::setRSI(rsi);
     PS::Breakout::setRCX(rcx);
-    return PS::Breakout::executeAndGetResult(LIBKERNEL(LIB_KERNEL_SYS_RET));
+    return PS::Breakout::executeAndGetResult(address);
 }
 #endif
 #endif

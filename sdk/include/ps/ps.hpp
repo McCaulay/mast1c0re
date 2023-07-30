@@ -67,7 +67,7 @@ struct kevent
 
 namespace PS
 {
-    #ifdef LIBKERNEL
+    #if defined(LIBKERNEL) || defined(LIB_KERNEL_SYS_RET_ERROR)
     extern PS::TcpClient Debug;
     #endif
 
@@ -148,7 +148,7 @@ namespace PS
     int32_t readAll(int32_t fd, void* buf, size_t len);
     size_t writeAll(int32_t fd, void* buf, size_t len);
 
-    #ifdef LIBKERNEL
+    #ifdef LIB_KERNEL_SCE_KERNEL_SEND_NOTIFICATION_REQUEST
     void notificationWithIcon(const char* icon, const char* format, ...);
     void notification(const char* format, ...);
     #endif

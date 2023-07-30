@@ -14,6 +14,7 @@
     #include <offsets/ps/eboot/eboot.hpp>
     #include <offsets/ps/libkernel.hpp>
     #include <offsets/ps/sce/msg-dialog.hpp>
+    #include <ps/syscall/table.hpp>
     #include <ps/breakout.hpp>
     #include <ps/ps.hpp>
     #include <ps/memory.hpp>

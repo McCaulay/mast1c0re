@@ -1,0 +1,767 @@
+#pragma once
+
+#define SYS_SYSCALL                            0
+#define SYS_EXIT                               1
+#define SYS_FORK                               2
+#define SYS_READ                               3
+#define SYS_WRITE                              4
+#define SYS_OPEN                               5
+#define SYS_CLOSE                              6
+#define SYS_WAIT4                              7
+#define SYS_CREAT                              8
+#define SYS_LINK                               9
+#define SYS_UNLINK                             10
+#define SYS_OBS_EXECV                          11
+#define SYS_CHDIR                              12
+#define SYS_FCHDIR                             13
+#define SYS_MKNOD                              14
+#define SYS_CHMOD                              15
+#define SYS_CHOWN                              16
+#define SYS_OBSOLETE17                         17
+#define SYS_COMPAT4_GETFSSTAT                  18
+#define SYS_LSEEK                              19
+#define SYS_GETPID                             20
+#define SYS_MOUNT                              21
+#define SYS_UNMOUNT                            22
+#define SYS_SETUID                             23
+#define SYS_GETUID                             24
+#define SYS_GETEUID                            25
+#define SYS_PTRACE                             26
+#define SYS_RECVMSG                            27
+#define SYS_SENDMSG                            28
+#define SYS_RECVFROM                           29
+#define SYS_ACCEPT                             30
+#define SYS_GETPEERNAME                        31
+#define SYS_GETSOCKNAME                        32
+#define SYS_ACCESS                             33
+#define SYS_CHFLAGS                            34
+#define SYS_FCHFLAGS                           35
+#define SYS_SYNC                               36
+#define SYS_KILL                               37
+#define SYS_STAT                               38
+#define SYS_GETPPID                            39
+#define SYS_LSTAT                              40
+#define SYS_DUP                                41
+#define SYS_COMPAT10_PIPE                      42
+#define SYS_GETEGID                            43
+#define SYS_PROFIL                             44
+#define SYS_KTRACE                             45
+#define SYS_SIGACTION                          46
+#define SYS_GETGID                             47
+#define SYS_SIGPROCMASK                        48
+#define SYS_GETLOGIN                           49
+#define SYS_SETLOGIN                           50
+#define SYS_OBSOLETE51                         51
+#define SYS_SIGPENDING                         52
+#define SYS_SIGALTSTACK                        53
+#define SYS_IOCTL                              54
+#define SYS_REBOOT                             55
+#define SYS_REVOKE                             56
+#define SYS_SYMLINK                            57
+#define SYS_READLINK                           58
+#define SYS_EXECVE                             59
+#define SYS_UMASK                              60
+#define SYS_CHROOT                             61
+#define SYS_FSTAT                              62
+#define SYS_GETKERNINFO                        63
+#define SYS_GETPAGESIZE                        64
+#define SYS_MSYNC                              65
+#define SYS_VFORK                              66
+#define SYS_OBS_VREAD                          67
+#define SYS_OBS_VWRITE                         68
+#define SYS_SBRK                               69
+#define SYS_SSTK                               70
+#define SYS_MMAP                               71
+#define SYS_OBSOLETE72                         72
+#define SYS_MUNMAP                             73
+#define SYS_MPROTECT                           74
+#define SYS_MADVISE                            75
+#define SYS_OBS_VHANGUP                        76
+#define SYS_OBS_VLIMIT                         77
+#define SYS_MINCORE                            78
+#define SYS_GETGROUPS                          79
+#define SYS_SETGROUPS                          80
+#define SYS_GETPGRP                            81
+#define SYS_SETPGID                            82
+#define SYS_SETITIMER                          83
+#define SYS_WAIT                               84
+#define SYS_SWAPON                             85
+#define SYS_GETITIMER                          86
+#define SYS_GETHOSTNAME                        87
+#define SYS_SETHOSTNAME                        88
+#define SYS_GETDTABLESIZE                      89
+#define SYS_DUP2                               90
+#define SYS_NUMBER91                           91
+#define SYS_FCNTL                              92
+#define SYS_SELECT                             93
+#define SYS_NUMBER94                           94
+#define SYS_FSYNC                              95
+#define SYS_SETPRIORITY                        96
+#define SYS_SOCKET                             97
+#define SYS_CONNECT                            98
+#define SYS_NETCONTROL                         99
+#define SYS_GETPRIORITY                        100
+#define SYS_NETABORT                           101
+#define SYS_NETGETSOCKINFO                     102
+#define SYS_SIGRETURN                          103
+#define SYS_BIND                               104
+#define SYS_SETSOCKOPT                         105
+#define SYS_LISTEN                             106
+#define SYS_OBS_VTIMES                         107
+#define SYS_SIGVEC                             108
+#define SYS_SIGBLOCK                           109
+#define SYS_SIGSETMASK                         110
+#define SYS_SIGSUSPEND                         111
+#define SYS_SIGSTACK                           112
+#define SYS_SOCKETEX                           113
+#define SYS_SOCKETCLOSE                        114
+#define SYS_OBS_VTRACE                         115
+#define SYS_GETTIMEOFDAY                       116
+#define SYS_GETRUSAGE                          117
+#define SYS_GETSOCKOPT                         118
+#define SYS_NUMBER119                          119
+#define SYS_READV                              120
+#define SYS_WRITEV                             121
+#define SYS_SETTIMEOFDAY                       122
+#define SYS_FCHOWN                             123
+#define SYS_FCHMOD                             124
+#define SYS_NETGETIFLIST                       125
+#define SYS_SETREUID                           126
+#define SYS_SETREGID                           127
+#define SYS_RENAME                             128
+#define SYS_TRUNCATE                           129
+#define SYS_FTRUNCATE                          130
+#define SYS_FLOCK                              131
+#define SYS_MKFIFO                             132
+#define SYS_SENDTO                             133
+#define SYS_SHUTDOWN                           134
+#define SYS_SOCKETPAIR                         135
+#define SYS_MKDIR                              136
+#define SYS_RMDIR                              137
+#define SYS_UTIMES                             138
+#define SYS_OBS_4_2                            139
+#define SYS_ADJTIME                            140
+#define SYS_KQUEUEEX                           141
+#define SYS_GETHOSTID                          142
+#define SYS_SETHOSTID                          143
+#define SYS_GETRLIMIT                          144
+#define SYS_SETRLIMIT                          145
+#define SYS_KILLPG                             146
+#define SYS_SETSID                             147
+#define SYS_OBSOLETE148                        148
+#define SYS_QUOTA                              149
+#define SYS_GETSOCKNAME2                       150
+#define SYS_NUMBER151                          151
+#define SYS_NUMBER152                          152
+#define SYS_NUMBER153                          153
+#define SYS_NLM_SYSCALL                        154
+#define SYS_NFSSVC                             155
+#define SYS_GETDIRENTRIES                      156
+#define SYS_COMPAT4_STATFS                     157
+#define SYS_COMPAT4_FSTATFS                    158
+#define SYS_NUMBER159                          159
+#define SYS_OBSOLETE160                        160
+#define SYS_OBSOLETE161                        161
+#define SYS_COMPAT4_GETDOMAINNAME              162
+#define SYS_COMPAT4_SETDOMAINNAME              163
+#define SYS_COMPAT4_UNAME                      164
+#define SYS_SYSARCH                            165
+#define SYS_RTPRIO                             166
+#define SYS_NUMBER167                          167
+#define SYS_NUMBER168                          168
+#define SYS_SEMSYS                             169
+#define SYS_MSGSYS                             170
+#define SYS_SHMSYS                             171
+#define SYS_NUMBER172                          172
+#if (defined(PS4) && PS4)
+    #define SYS_OBSOLETE173                    173
+    #define SYS_OBSOLETE174                    174
+#endif
+#if (defined(PS5) && PS5)
+    #define SYS_COMPAT6_PREAD                  173
+    #define SYS_COMPAT6_PWRITE                 174
+#endif
+#define SYS_OBSOLETE175                        175
+#define SYS_OBSOLETE176                        176
+#define SYS_NUMBER177                          177
+#define SYS_NUMBER178                          178
+#define SYS_NUMBER179                          179
+#define SYS_NUMBER180                          180
+#define SYS_SETGID                             181
+#define SYS_SETEGID                            182
+#define SYS_SETEUID                            183
+#define SYS_NUMBER184                          184
+#define SYS_NUMBER185                          185
+#define SYS_NUMBER186                          186
+#define SYS_NUMBER187                          187
+#define SYS_STAT2                              188
+#define SYS_FSTAT2                             189
+#define SYS_LSTAT2                             190
+#define SYS_PATHCONF                           191
+#define SYS_FPATHCONF                          192
+#define SYS_NUMBER193                          193
+#define SYS_GETRLIMIT2                         194
+#define SYS_SETRLIMIT2                         195
+#define SYS_GETDIRENTRIES2                     196
+#if (defined(PS4) && PS4)
+    #define SYS_OBSOLETE197                    197
+#endif
+#if (defined(PS5) && PS5)
+    #define SYS_COMPAT6_MMAP                   197
+#endif
+#define SYS_SYSCALL2                           198
+#if (defined(PS4) && PS4)
+    #define SYS_OBSOLETE199                    199
+    #define SYS_OBSOLETE200                    200
+    #define SYS_OBSOLETE201                    201
+#endif
+#if (defined(PS5) && PS5)
+    #define SYS_COMPAT6_LSEEK                  199
+    #define SYS_COMPAT6_TRUNCATE               200
+    #define SYS_COMPAT6_FTRUNCATE              201
+#endif
+#define SYS_SYSCTL                             202
+#define SYS_MLOCK                              203
+#define SYS_MUNLOCK                            204
+#define SYS_OBSOLETE205                        205
+#define SYS_FUTIMES                            206
+#define SYS_GETPGID                            207
+#define SYS_NUMBER208                          208
+#define SYS_POLL                               209
+#define SYS_LKMNOSYS                           210
+#define SYS_LKMNOSYS2                          211
+#define SYS_LKMNOSYS3                          212
+#define SYS_LKMNOSYS4                          213
+#define SYS_LKMNOSYS5                          214
+#define SYS_LKMNOSYS6                          215
+#define SYS_LKMNOSYS7                          216
+#define SYS_LKMNOSYS8                          217
+#define SYS_LKMNOSYS9                          218
+#define SYS_LKMNOSYS10                         219
+#define SYS_COMPAT7_SEMCTL                     220
+#define SYS_SEMGET                             221
+#define SYS_SEMOP                              222
+#define SYS_NUMBER223                          223
+#define SYS_COMPAT7_MSGCTL                     224
+#define SYS_MSGGET                             225
+#define SYS_MSGSND                             226
+#define SYS_MSGRCV                             227
+#define SYS_SHMAT                              228
+#define SYS_COMPAT7_SHMCTL                     229
+#define SYS_SHMDT                              230
+#define SYS_SHMGET                             231
+#define SYS_CLOCK_GETTIME                      232
+#define SYS_CLOCK_SETTIME                      233
+#define SYS_CLOCK_GETRES                       234
+#define SYS_KTIMER_CREATE                      235
+#define SYS_KTIMER_DELETE                      236
+#define SYS_KTIMER_SETTIME                     237
+#define SYS_KTIMER_GETTIME                     238
+#define SYS_KTIMER_GETOVERRUN                  239
+#define SYS_NANOSLEEP                          240
+#if (defined(PS4) && PS4)
+    #define SYS_NUMBER241                      241
+    #define SYS_NUMBER242                      242
+    #define SYS_NUMBER243                      243
+#endif
+#if (defined(PS5) && PS5)
+    #define SYS_FFCLOCK_GETCOUNTER             241
+    #define SYS_FFCLOCK_SETESTIMATE            242
+    #define SYS_FFCLOCK_GETESTIMATE            243
+#endif
+#define SYS_NUMBER244                          244
+#define SYS_NUMBER245                          245
+#define SYS_NUMBER246                          246
+#if (defined(PS4) && PS4)
+    #define SYS_NUMBER247                      247
+#endif
+#if (defined(PS5) && PS5)
+    #define SYS_CLOCK_GETCPUCLOCKID2           247
+#endif
+#define SYS_OBSOLETE248                        248
+#define SYS_NUMBER249                          249
+#define SYS_MINHERIT                           250
+#define SYS_RFORK                              251
+#define SYS_OBSOLETE252                        252
+#define SYS_ISSETUGID                          253
+#define SYS_LCHOWN                             254
+#define SYS_AIO_READ                           255
+#define SYS_AIO_WRITE                          256
+#define SYS_OBSOLETE257                        257
+#define SYS_NUMBER258                          258
+#define SYS_NUMBER259                          259
+#define SYS_NUMBER260                          260
+#define SYS_NUMBER261                          261
+#define SYS_NUMBER262                          262
+#define SYS_NUMBER263                          263
+#define SYS_NUMBER264                          264
+#define SYS_NUMBER265                          265
+#define SYS_NUMBER266                          266
+#define SYS_NUMBER267                          267
+#define SYS_NUMBER268                          268
+#define SYS_NUMBER269                          269
+#define SYS_NUMBER270                          270
+#define SYS_NUMBER271                          271
+#define SYS_GETDENTS                           272
+#define SYS_NUMBER273                          273
+#define SYS_LCHMOD                             274
+#define SYS_NETBSD_LCHOWN                      275
+#define SYS_LUTIMES                            276
+#define SYS_NETBSD_MSYNC                       277
+#define SYS_OBSOLETE278                        278
+#define SYS_OBSOLETE279                        279
+#define SYS_OBSOLETE280                        280
+#define SYS_NUMBER281                          281
+#define SYS_NUMBER282                          282
+#define SYS_NUMBER283                          283
+#define SYS_NUMBER284                          284
+#define SYS_NUMBER285                          285
+#define SYS_NUMBER286                          286
+#define SYS_NUMBER287                          287
+#define SYS_NUMBER288                          288
+#define SYS_PREADV                             289
+#define SYS_PWRITEV                            290
+#define SYS_NUMBER291                          291
+#define SYS_NUMBER292                          292
+#define SYS_NUMBER293                          293
+#define SYS_NUMBER294                          294
+#define SYS_NUMBER295                          295
+#define SYS_NUMBER296                          296
+#define SYS_COMPAT4_FHSTATFS                   297
+#define SYS_OBSOLETE298                        298
+#define SYS_OBSOLETE299                        299
+#define SYS_OBSOLETE300                        300
+#define SYS_OBSOLETE301                        301
+#define SYS_OBSOLETE302                        302
+#define SYS_OBSOLETE303                        303
+#define SYS_KLDLOAD                            304
+#define SYS_KLDUNLOAD                          305
+#define SYS_KLDFIND                            306
+#define SYS_KLDNEXT                            307
+#define SYS_KLDSTAT                            308
+#define SYS_KLDFIRSTMOD                        309
+#define SYS_GETSID                             310
+#define SYS_SETRESUID                          311
+#define SYS_SETRESGID                          312
+#define SYS_OBS_SIGNANOSLEEP                   313
+#define SYS_AIO_RETURN                         314
+#define SYS_AIO_SUSPEND                        315
+#define SYS_AIO_CANCEL                         316
+#define SYS_AIO_ERROR                          317
+#if (defined(PS4) && PS4)
+    #define SYS_OBSOLETE318                    318
+    #define SYS_OBSOLETE319                    319
+    #define SYS_OBSOLETE320                    320
+#endif
+#if (defined(PS5) && PS5)
+    #define SYS_COMPAT6_AIO_READ               318
+    #define SYS_COMPAT6_AIO_WRITE              319
+    #define SYS_COMPAT6_LIO_LISTIO             320
+#endif
+#define SYS_YIELD                              321
+#define SYS_OBS_THR_SLEEP                      322
+#define SYS_OBS_THR_WAKEUP                     323
+#define SYS_MLOCKALL                           324
+#define SYS_MUNLOCKALL                         325
+#define SYS_GETCWD                             326
+#define SYS_SCHED_SETPARAM                     327
+#define SYS_SCHED_GETPARAM                     328
+#define SYS_SCHED_SETSCHEDULER                 329
+#define SYS_SCHED_GETSCHEDULER                 330
+#define SYS_SCHED_YIELD                        331
+#define SYS_SCHED_GET_PRIORITY_MAX             332
+#define SYS_SCHED_GET_PRIORITY_MIN             333
+#define SYS_SCHED_RR_GET_INTERVAL              334
+#define SYS_UTRACE                             335
+#define SYS_COMPAT4_SENDFILE                   336
+#define SYS_KLDSYM                             337
+#define SYS_OBSOLETE338                        338
+#define SYS_NNPFS_SYSCALL                      339
+#define SYS_SIGPROCMASK2                       340
+#define SYS_SIGSUSPEND2                        341
+#define SYS_COMPAT4_SIGACTION                  342
+#define SYS_SIGPENDING2                        343
+#define SYS_COMPAT4_SIGRETURN                  344
+#define SYS_SIGTIMEDWAIT                       345
+#define SYS_SIGWAITINFO                        346
+#define SYS_OBSOLETE347                        347
+#define SYS_OBSOLETE348                        348
+#define SYS_OBSOLETE349                        349
+#define SYS_OBSOLETE350                        350
+#define SYS_OBSOLETE351                        351
+#define SYS_OBSOLETE352                        352
+#define SYS_OBSOLETE353                        353
+#define SYS_OBSOLETE354                        354
+#define SYS_OBSOLETE355                        355
+#define SYS_OBSOLETE356                        356
+#define SYS_OBSOLETE357                        357
+#define SYS_OBSOLETE358                        358
+#define SYS_AIO_WAITCOMPLETE                   359
+#define SYS_GETRESUID                          360
+#define SYS_GETRESGID                          361
+#define SYS_KQUEUE                             362
+#define SYS_KEVENT                             363
+#define SYS_NUMBER364                          364
+#define SYS_NUMBER365                          365
+#define SYS_NUMBER366                          366
+#define SYS_NUMBER367                          367
+#define SYS_NUMBER368                          368
+#define SYS_NUMBER369                          369
+#define SYS_NUMBER370                          370
+#define SYS_OBSOLETE371                        371
+#define SYS_OBSOLETE372                        372
+#define SYS_OBSOLETE373                        373
+#define SYS_SETUGID                            374
+#define SYS_NUMBER375                          375
+#define SYS_OBSOLETE376                        376
+#define SYS_AFS3_SYSCALL                       377
+#define SYS_NMOUNT                             378
+#define SYS_MTYPEPROTECT                       379
+#define SYS_NUMBER380                          380
+#define SYS_NUMBER381                          381
+#define SYS_NUMBER382                          382
+#define SYS_NUMBER383                          383
+#define SYS_MAC_GET_PROC                       384
+#define SYS_MAC_SET_PROC                       385
+#define SYS_MAC_GET_FD                         386
+#define SYS_MAC_GET_FILE                       387
+#define SYS_MAC_SET_FD                         388
+#define SYS_MAC_SET_FILE                       389
+#define SYS_KENV                               390
+#define SYS_LCHFLAGS                           391
+#define SYS_UUIDGEN                            392
+#define SYS_SENDFILE                           393
+#define SYS_MAC_SYSCALL                        394
+#define SYS_GETFSSTAT                          395
+#define SYS_STATFS                             396
+#define SYS_FSTATFS                            397
+#define SYS_OBSOLETE398                        398
+#define SYS_NUMBER399                          399
+#define SYS_KSEM_CLOSE                         400
+#define SYS_KSEM_POST                          401
+#define SYS_KSEM_WAIT                          402
+#define SYS_KSEM_TRYWAIT                       403
+#define SYS_KSEM_INIT                          404
+#define SYS_KSEM_OPEN                          405
+#define SYS_KSEM_UNLINK                        406
+#define SYS_KSEM_GETVALUE                      407
+#define SYS_KSEM_DESTROY                       408
+#define SYS_MAC_GET_PID                        409
+#define SYS_MAC_GET_LINK                       410
+#define SYS_MAC_SET_LINK                       411
+#define SYS_OBSOLETE412                        412
+#define SYS_OBSOLETE413                        413
+#define SYS_OBSOLETE414                        414
+#define SYS_MAC_EXECVE                         415
+#define SYS_SIGACTION2                         416
+#define SYS_SIGRETURN2                         417
+#define SYS_NUMBER418                          418
+#define SYS_NUMBER419                          419
+#define SYS_NUMBER420                          420
+#define SYS_GETCONTEXT                         421
+#define SYS_SETCONTEXT                         422
+#define SYS_SWAPCONTEXT                        423
+#define SYS_OBSOLETE424                        424
+#define SYS_OBSOLETE425                        425
+#define SYS_OBSOLETE426                        426
+#define SYS_OBSOLETE427                        427
+#define SYS_OBSOLETE428                        428
+#define SYS_SIGWAIT                            429
+#define SYS_THR_CREATE                         430
+#define SYS_THR_EXIT                           431
+#define SYS_THR_SELF                           432
+#define SYS_THR_KILL                           433
+#define SYS_NUMBER434                          434
+#define SYS_NUMBER435                          435
+#define SYS_OBSOLETE436                        436
+#define SYS_OBSOLETE437                        437
+#define SYS_OBSOLETE438                        438
+#define SYS_OBSOLETE439                        439
+#define SYS_NUMBER440                          440
+#define SYS_KSEM_TIMEDWAIT                     441
+#define SYS_THR_SUSPEND                        442
+#define SYS_THR_WAKE                           443
+#define SYS_KLDUNLOADF                         444
+#define SYS_OBSOLETE445                        445
+#define SYS_OBSOLETE446                        446
+#define SYS_OBSOLETE447                        447
+#define SYS_OBSOLETE448                        448
+#define SYS_OBSOLETE449                        449
+#define SYS_OBSOLETE450                        450
+#define SYS_OBSOLETE451                        451
+#define SYS_OBSOLETE452                        452
+#define SYS_OBSOLETE453                        453
+#define SYS_UMTX_OP                            454
+#define SYS_THR_NEW                            455
+#define SYS_SIGQUEUE                           456
+#define SYS_KMQ_OPEN                           457
+#define SYS_KMQ_SETATTR                        458
+#define SYS_KMQ_TIMEDRECEIVE                   459
+#define SYS_KMQ_TIMEDSEND                      460
+#define SYS_KMQ_NOTIFY                         461
+#define SYS_KMQ_UNLINK                         462
+#define SYS_OBSOLETE463                        463
+#define SYS_THR_SET_NAME                       464
+#define SYS_AIO_FSYNC                          465
+#define SYS_RTPRIO_THREAD                      466
+#define SYS_NUMBER467                          467
+#define SYS_NUMBER468                          468
+#define SYS_NUMBER469                          469
+#define SYS_NUMBER470                          470
+#define SYS_OBSOLETE471                        471
+#define SYS_OBSOLETE472                        472
+#define SYS_OBSOLETE473                        473
+#define SYS_OBSOLETE474                        474
+#define SYS_PREAD                              475
+#define SYS_PWRITE                             476
+#define SYS_MMAP2                              477
+#define SYS_LSEEK2                             478
+#define SYS_TRUNCATE2                          479
+#define SYS_FTRUNCATE2                         480
+#define SYS_THR_KILL2                          481
+#define SYS_SHM_OPEN                           482
+#define SYS_SHM_UNLINK                         483
+#define SYS_CPUSET                             484
+#define SYS_CPUSET_SETID                       485
+#define SYS_CPUSET_GETID                       486
+#define SYS_CPUSET_GETAFFINITY                 487
+#define SYS_CPUSET_SETAFFINITY                 488
+#define SYS_OBSOLETE489                        489
+#define SYS_FCHMODAT                           490
+#define SYS_FCHOWNAT                           491
+#define SYS_OBSOLETE492                        492
+#define SYS_FSTATAT                            493
+#define SYS_FUTIMESAT                          494
+#define SYS_LINKAT                             495
+#define SYS_MKDIRAT                            496
+#define SYS_MKFIFOAT                           497
+#define SYS_MKNODAT                            498
+#define SYS_OPENAT                             499
+#define SYS_OBSOLETE500                        500
+#define SYS_RENAMEAT                           501
+#define SYS_SYMLINKAT                          502
+#define SYS_UNLINKAT                           503
+#define SYS_OBSOLETE504                        504
+#define SYS_GSSD_SYSCALL                       505
+#define SYS_OBSOLETE506                        506
+#define SYS_OBSOLETE507                        507
+#define SYS_OBSOLETE508                        508
+#define SYS_OBSOLETE509                        509
+#define SYS_SEMCTL                             510
+#define SYS_MSGCTL                             511
+#define SYS_SHMCTL                             512
+#define SYS_OBSOLETE513                        513
+#define SYS_OBS_CAP_NEW                        514
+#define SYS_CAP_RIGHTS_GET                     515
+#define SYS_CAP_ENTER                          516
+#define SYS_CAP_GETMODE                        517
+#define SYS_PDFORK                             518
+#define SYS_PDKILL                             519
+#define SYS_PDGETPID                           520
+#define SYS_NUMBER521                          521
+#define SYS_PSELECT                            522
+#define SYS_OBSOLETE523                        523
+#define SYS_OBSOLETE524                        524
+#define SYS_RCTL_GET_RACCT                     525
+#define SYS_RCTL_GET_RULES                     526
+#define SYS_RCTL_GET_LIMITS                    527
+#define SYS_RCTL_ADD_RULE                      528
+#define SYS_RCTL_REMOVE_RULE                   529
+#define SYS_OBSOLETE530                        530
+#define SYS_NUMBER531                          531
+#define SYS_REGMGR_CALL                        532
+#define SYS_JITSHM_CREATE                      533
+#define SYS_JITSHM_ALIAS                       534
+#define SYS_DL_GET_LIST                        535
+#define SYS_DL_GET_INFO                        536
+#define SYS_OBSOLETE537                        537
+#define SYS_EVF_CREATE                         538
+#define SYS_EVF_DELETE                         539
+#define SYS_EVF_OPEN                           540
+#define SYS_EVF_CLOSE                          541
+#define SYS_EVF_WAIT                           542
+#define SYS_EVF_TRYWAIT                        543
+#define SYS_EVF_SET                            544
+#define SYS_EVF_CLEAR                          545
+#define SYS_EVF_CANCEL                         546
+#define SYS_QUERY_MEMORY_PROTECTION            547
+#define SYS_BATCH_MAP                          548
+#define SYS_OSEM_CREATE                        549
+#define SYS_OSEM_DELETE                        550
+#define SYS_OSEM_OPEN                          551
+#define SYS_OSEM_CLOSE                         552
+#define SYS_OSEM_WAIT                          553
+#define SYS_OSEM_TRYWAIT                       554
+#define SYS_OSEM_POST                          555
+#define SYS_OSEM_CANCEL                        556
+#define SYS_NAMEDOBJ_CREATE                    557
+#define SYS_NAMEDOBJ_DELETE                    558
+#define SYS_SET_VM_CONTAINER                   559
+#define SYS_DEBUG_INIT                         560
+#define SYS_SUSPEND_PROCESS                    561
+#define SYS_RESUME_PROCESS                     562
+#define SYS_OPMC_ENABLE                        563
+#define SYS_OPMC_DISABLE                       564
+#define SYS_OPMC_SET_CTL                       565
+#define SYS_OPMC_SET_CTR                       566
+#define SYS_OPMC_GET_CTR                       567
+#define SYS_BUDGET_CREATE                      568
+#define SYS_BUDGET_DELETE                      569
+#define SYS_BUDGET_GET                         570
+#define SYS_BUDGET_SET                         571
+#define SYS_VIRTUAL_QUERY                      572
+#define SYS_MDBG_CALL                          573
+#define SYS_OBS_SBLOCK_CREATE                  574
+#define SYS_OBS_SBLOCK_DELETE                  575
+#define SYS_OBS_SBLOCK_ENTER                   576
+#define SYS_OBS_SBLOCK_EXIT                    577
+#define SYS_OBS_SBLOCK_XENTER                  578
+#define SYS_OBS_SBLOCK_XEXIT                   579
+#define SYS_OBS_EPORT_CREATE                   580
+#define SYS_OBS_EPORT_DELETE                   581
+#define SYS_OBS_EPORT_TRIGGER                  582
+#define SYS_OBS_EPORT_OPEN                     583
+#define SYS_OBS_EPORT_CLOSE                    584
+#define SYS_IS_IN_SANDBOX                      585
+#define SYS_DMEM_CONTAINER                     586
+#define SYS_GET_AUTHINFO                       587
+#define SYS_MNAME                              588
+#define SYS_DYNLIB_DLOPEN                      589
+#define SYS_DYNLIB_DLCLOSE                     590
+#define SYS_DYNLIB_DLSYM                       591
+#define SYS_DYNLIB_GET_LIST                    592
+#define SYS_DYNLIB_GET_INFO                    593
+#define SYS_DYNLIB_LOAD_PRX                    594
+#define SYS_DYNLIB_UNLOAD_PRX                  595
+#define SYS_DYNLIB_DO_COPY_RELOCATIONS         596
+#define SYS_DYNLIB_PREPARE_DLCLOSE             597
+#define SYS_DYNLIB_GET_PROC_PARAM              598
+#define SYS_DYNLIB_PROCESS_NEEDED_AND_RELOCATE 599
+#define SYS_SANDBOX_PATH                       600
+#define SYS_MDBG_SERVICE                       601
+#define SYS_RANDOMIZED_PATH                    602
+#define SYS_RDUP                               603
+#define SYS_DL_GET_METADATA                    604
+#define SYS_WORKAROUND8849                     605
+#define SYS_IS_DEVELOPMENT_MODE                606
+#define SYS_GET_SELF_AUTH_INFO                 607
+#define SYS_DYNLIB_GET_INFO_EX                 608
+#define SYS_BUDGET_GETID                       609
+#define SYS_BUDGET_GET_PTYPE                   610
+#define SYS_GET_PAGING_STATS_OF_ALL_THREADS    611
+#define SYS_GET_PROC_TYPE_INFO                 612
+#define SYS_GET_RESIDENT_COUNT                 613
+#define SYS_PREPARE_TO_SUSPEND_PROCESS         614
+#define SYS_GET_RESIDENT_FMEM_COUNT            615
+#define SYS_THR_GET_NAME                       616
+#define SYS_SET_GPO                            617
+#define SYS_GET_PAGING_STATS_OF_ALL_OBJECTS    618
+#define SYS_TEST_DEBUG_RWMEM                   619
+#define SYS_FREE_STACK                         620
+#define SYS_SUSPEND_SYSTEM                     621
+#define SYS_IPMIMGR_CALL                       622
+#define SYS_GET_GPO                            623
+#define SYS_GET_VM_MAP_TIMESTAMP               624
+#define SYS_OPMC_SET_HW                        625
+#define SYS_OPMC_GET_HW                        626
+#define SYS_GET_CPU_USAGE_ALL                  627
+#define SYS_MMAP_DMEM                          628
+#define SYS_PHYSHM_OPEN                        629
+#define SYS_PHYSHM_UNLINK                      630
+#define SYS_RESUME_INTERNAL_HDD                631
+#define SYS_THR_SUSPEND_UCONTEXT               632
+#define SYS_THR_RESUME_UCONTEXT                633
+#define SYS_THR_GET_UCONTEXT                   634
+#define SYS_THR_SET_UCONTEXT                   635
+#define SYS_SET_TIMEZONE_INFO                  636
+#define SYS_SET_PHYS_FMEM_LIMIT                637
+#define SYS_UTC_TO_LOCALTIME                   638
+#define SYS_LOCALTIME_TO_UTC                   639
+#define SYS_SET_UEVT                           640
+#define SYS_GET_CPU_USAGE_PROC                 641
+#define SYS_GET_MAP_STATISTICS                 642
+#define SYS_SET_CHICKEN_SWITCHES               643
+#define SYS_NUMBER644                          644
+#define SYS_NUMBER645                          645
+#define SYS_GET_KERNEL_MEM_STATISTICS          646
+#define SYS_GET_SDK_COMPILED_VERSION           647
+#define SYS_APP_STATE_CHANGE                   648
+#define SYS_DYNLIB_GET_OBJ_MEMBER              649
+#define SYS_BUDGET_GET_PTYPE_OF_BUDGET         650
+#define SYS_PREPARE_TO_RESUME_PROCESS          651
+#define SYS_PROCESS_TERMINATE                  652
+#define SYS_BLOCKPOOL_OPEN                     653
+#define SYS_BLOCKPOOL_MAP                      654
+#define SYS_BLOCKPOOL_UNMAP                    655
+#define SYS_DYNLIB_GET_INFO_FOR_LIBDBG         656
+#define SYS_BLOCKPOOL_BATCH                    657
+#define SYS_FDATASYNC                          658
+#define SYS_DYNLIB_GET_LIST2                   659
+#define SYS_DYNLIB_GET_INFO2                   660
+#define SYS_AIO_SUBMIT                         661
+#define SYS_AIO_MULTI_DELETE                   662
+#define SYS_AIO_MULTI_WAIT                     663
+#define SYS_AIO_MULTI_POLL                     664
+#define SYS_AIO_GET_DATA                       665
+#define SYS_AIO_MULTI_CANCEL                   666
+#define SYS_GET_BIO_USAGE_ALL                  667
+#define SYS_AIO_CREATE                         668
+#define SYS_AIO_SUBMIT_CMD                     669
+#define SYS_AIO_INIT                           670
+#define SYS_GET_PAGE_TABLE_STATS               671
+#define SYS_DYNLIB_GET_LIST_FOR_LIBDBG         672
+#define SYS_BLOCKPOOL_MOVE                     673
+#define SYS_VIRTUAL_QUERY_ALL                  674
+#define SYS_RESERVE_2MB_PAGE                   675
+#define SYS_CPUMODE_YIELD                      676
+
+#if (defined(PS5) && PS5)
+    #define SYS_WAIT6                          677
+    #define SYS_CAP_RIGHTS_LIMIT               678
+    #define SYS_CAP_IOCTLS_LIMIT               679
+    #define SYS_CAP_IOCTLS_GET                 680
+    #define SYS_CAP_FCNTLS_LIMIT               681
+    #define SYS_CAP_FCNTLS_GET                 682
+    #define SYS_BINDAT                         683
+    #define SYS_CONNECTAT                      684
+    #define SYS_CHFLAGSAT                      685
+    #define SYS_ACCEPT4                        686
+    #define SYS_PIPE2                          687
+    #define SYS_AIO_MLOCK                      688
+    #define SYS_PROCCTL                        689
+    #define SYS_PPOLL                          690
+    #define SYS_FUTIMENS                       691
+    #define SYS_UTIMENSAT                      692
+    #define SYS_NUMA_GETAFFINITY               693
+    #define SYS_NUMA_SETAFFINITY               694
+    #define SYS_NUMBER695                      695
+    #define SYS_NUMBER696                      696
+    #define SYS_NUMBER697                      697
+    #define SYS_NUMBER698                      698
+    #define SYS_NUMBER699                      699
+    #define SYS_APR_SUBMIT                     700
+    #define SYS_APR_RESOLVE                    701
+    #define SYS_APR_STAT                       702
+    #define SYS_APR_WAIT                       703
+    #define SYS_APR_CTRL                       704
+    #define SYS_GET_PHYS_PAGE_SIZE             705
+    #define SYS_BEGIN_APP_MOUNT                706
+    #define SYS_END_APP_MOUNT                  707
+    #define SYS_FSC2H_CTRL                     708
+    #define SYS_STREAMWRITE                    709
+    #define SYS_APP_SAVE                       710
+    #define SYS_APP_RESTORE                    711
+    #define SYS_SAVED_APP_DELETE               712
+    #define SYS_GET_PPR_SDK_COMPILED_VERSION   713
+    #define SYS_NOTIFY_APP_EVENT               714
+    #define SYS_IOREQ                          715
+    #define SYS_OPENINTR                       716
+    #define SYS_DL_GET_INFO_2                  717
+    #define SYS_ACINFO_ADD                     718
+    #define SYS_ACINFO_DELETE                  719
+    #define SYS_ACINFO_GET_ALL_FOR_COREDUMP    720
+    #define SYS_AMPR_CTRL_DEBUG                721
+    #if defined(FIRMWARE) && FIRMWARE >= 300
+        #define SYS_WORKSPACE_CTRL             722
+    #endif
+#endif

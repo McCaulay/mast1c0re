@@ -7,7 +7,7 @@
 #include <ps/sce/sce.hpp>
 #include <ps/sce/libkernel.hpp>
 
-#ifdef LIBKERNEL
+#if defined(LIBKERNEL) || defined(LIB_KERNEL_SYS_RET_ERROR)
 PS::TcpClient PS::Debug = PS::TcpClient();
 #endif
 

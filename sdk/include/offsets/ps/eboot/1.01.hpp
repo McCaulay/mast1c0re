@@ -89,6 +89,7 @@
     #define EBOOT_SCE_MSG_DIALOG_TERMINATE_STUB     0x00764450
 
     // Function Stub Pointers
+    #define EBOOT_ERROR_STUB_PTR                        0x083cfa0
     #define EBOOT_SCE_KERNEL_USLEEP_STUB_PTR            0x083d1c0
     #define EBOOT_SCE_KERNEL_REACHABILITY_STUB_PTR      0x083d038
 

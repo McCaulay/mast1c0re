@@ -8,7 +8,7 @@
 
 namespace PS
 {
-    #ifdef LIBKERNEL
+    #if defined(LIBKERNEL) || defined(LIB_KERNEL_SYS_RET_ERROR)
     #ifndef EBOOT_READ_STUB
     size_t read(int32_t fd, void* buf, size_t len);
     #endif

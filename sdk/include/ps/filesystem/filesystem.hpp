@@ -67,7 +67,7 @@ namespace PS
         int lastIndexOf(const char* str, char c);
         const char* basename(const char* path);
         char* combine(const char* path, const char* basename);
-        #ifdef LIBKERNEL
+        #if defined(LIBKERNEL) || defined(LIB_KERNEL_SYS_RET_ERROR)
         bool exists(const char* filepath);
         bool deleteIfExists(const char* filepath);
         size_t getFileSize(const char* filepath);
