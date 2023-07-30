@@ -110,15 +110,12 @@ bool PS::Filesystem::deleteIfExists(const char* filepath)
 
 size_t PS::Filesystem::getFileSize(const char* filepath)
 {
-    PS::Debug.printf("before open\n");
     int32_t fd = PS::open(filepath, O_RDONLY, 0);
     if (fd <= 0)
         return 0;
 
-    PS::Debug.printf("before fstat\n");
     struct stat s;
     PS::fstat(fd, &s);
-    PS::Debug.printf("before close\n");
     PS::close(fd);
     return s.st_size;
 }
