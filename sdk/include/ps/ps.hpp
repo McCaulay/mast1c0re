@@ -7,6 +7,47 @@
 #include <offsets/ps/eboot/eboot.hpp>
 #include <ps/tcp/tcp-client.hpp>
 
+/*
+ * Protections are chosen from these bits, or-ed together
+ */
+#define PROT_NONE       0x00    /* no permissions */
+#define PROT_READ       0x01    /* pages can be read */
+#define PROT_WRITE      0x02    /* pages can be written */
+#define PROT_EXEC       0x04    /* pages can be executed */
+#define _PROT_ALL       (PROT_READ | PROT_WRITE | PROT_EXEC)
+
+/*
+ * Flags contain sharing type and options.
+ * Sharing types; choose one.
+ */
+#define MAP_SHARED      0x0001          /* share changes */
+#define MAP_PRIVATE     0x0002          /* changes are private */
+
+/*
+ * Other flags
+ */
+#define MAP_FIXED        0x0010 /* map addr must be exactly as requested */
+
+#define MAP_HASSEMAPHORE 0x0200 /* region may contain semaphores */
+#define MAP_STACK        0x0400 /* region grows down, like a stack */
+#define MAP_NOSYNC       0x0800 /* page to but do not sync underlying file */
+
+/*
+ * Mapping type
+ */
+#define MAP_FILE         0x0000 /* map from file (default) */
+#define MAP_ANON         0x1000 /* allocated from memory, swap space */
+
+/*
+ * Error return from mmap()
+ */
+#define MAP_FAILED       0xffffffffffffffff
+
+/* where values for lseek(2) */
+#define SEEK_SET 0 /* set file offset to offset */
+#define SEEK_CUR 1 /* set file offset to current plus offset */
+#define SEEK_END 2 /* set file offset to EOF plus offset */
+
 struct stat
 {
     dev_t st_dev;            /* inode's device */
@@ -98,13 +139,33 @@ namespace PS
     int memcmp(uint64_t ptr1, uint64_t ptr2, size_t n);
     #ifdef EBOOT_WRITE_STUB
     size_t write(int32_t fd, void* buf, size_t len);
+    size_t writeAll(int32_t fd, void* buf, size_t len);
+    size_t writeNative(int32_t fd, uint64_t addr, size_t len);
+    size_t writeAllNative(int32_t fd, uint64_t addr, size_t len);
+
+    template<typename T>
+    static size_t write(int32_t fd, T value)
+    {
+        return PS::writeAll(fd, &value, sizeof(T));
+    }
     #endif
     #ifdef EBOOT_READ_STUB
     size_t read(int32_t fd, void* buf, size_t len);
+    size_t readAll(int32_t fd, void* buf, size_t len);
+
+    template<typename T>
+    static T read(int32_t fd)
+    {
+        T value;
+        PS::readAll(fd, &value, sizeof(T));
+        return value;
+    }
     #endif
     uint64_t memcpy(uint64_t dest, uint64_t src, uint64_t n);
     uint64_t strncpy(uint64_t dest, uint64_t src, uint64_t n);
     uint32_t getpid();
+    uint64_t mmap(uint64_t addr, uint64_t len, int32_t prot, int32_t flags, int32_t fd, uint64_t offset);
+    int32_t munmap(uint64_t addr, uint64_t len);
 
     int32_t PadSetLightBar(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
 
@@ -144,9 +205,6 @@ namespace PS
     void SwitchDiscSwitch(uint64_t arg = 0);
     void SwitchDiscClose(uint64_t arg = 0);
     void ReloadLuaScripts(uint64_t arg = 0);
-
-    int32_t readAll(int32_t fd, void* buf, size_t len);
-    size_t writeAll(int32_t fd, void* buf, size_t len);
 
     #ifdef LIB_KERNEL_SCE_KERNEL_SEND_NOTIFICATION_REQUEST
     void notificationWithIcon(const char* icon, const char* format, ...);

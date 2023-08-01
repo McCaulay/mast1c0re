@@ -64,6 +64,14 @@ size_t PS::TcpClient::send(void* buffer, size_t length)
     return PS::writeAll(this->sock, buffer, length);
 }
 
+size_t PS::TcpClient::sendNative(uint64_t addr, size_t length)
+{
+    if (!this->isConnected())
+        return 0;
+
+    return PS::writeAllNative(this->sock, addr, length);
+}
+
 size_t PS::TcpClient::printf(const char* format, ...)
 {
     va_list args;

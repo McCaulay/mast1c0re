@@ -131,7 +131,32 @@ int PS::memcmp(uint64_t ptr1, uint64_t ptr2, size_t n)
 #ifdef EBOOT_WRITE_STUB
 size_t PS::write(int32_t fd, void* buf, size_t len)
 {
-    return (size_t)PS::Breakout::call(EBOOT(EBOOT_WRITE_STUB), fd, PVAR_TO_NATIVE(buf), len);
+    return PS::writeNative(fd, PVAR_TO_NATIVE(buf), len);
+}
+
+size_t PS::writeAll(int32_t fd, void* buf, size_t len)
+{
+    return PS::writeAllNative(fd, PVAR_TO_NATIVE(buf), len);
+}
+
+size_t PS::writeNative(int32_t fd, uint64_t addr, size_t len)
+{
+    return (size_t)PS::Breakout::call(EBOOT(EBOOT_WRITE_STUB), fd, addr, len);
+}
+
+size_t PS::writeAllNative(int32_t fd, uint64_t addr, size_t len)
+{
+    size_t total = 0;
+    size_t count = 0;
+
+    while ((count = PS::writeNative(fd, addr + total, len - total)) > 0)
+    {
+        total += count;
+        if (total >= len)
+            break;
+    }
+
+    return total;
 }
 #endif
 
@@ -139,6 +164,21 @@ size_t PS::write(int32_t fd, void* buf, size_t len)
 size_t PS::read(int32_t fd, void* buf, size_t len)
 {
     return (size_t)PS::Breakout::call(EBOOT(EBOOT_READ_STUB), fd, PVAR_TO_NATIVE(buf), len);
+}
+
+size_t PS::readAll(int32_t fd, void* buf, size_t len)
+{
+    size_t total = 0;
+    size_t count = 0;
+
+    while ((count = PS::read(fd, (uint8_t*)buf + total, len - total)) > 0)
+    {
+        total += count;
+        if (total >= len)
+            break;
+    }
+
+    return total;
 }
 #endif
 
@@ -155,6 +195,16 @@ uint64_t PS::strncpy(uint64_t dest, uint64_t src, uint64_t n)
 uint32_t PS::getpid()
 {
     return (uint32_t)PS::Breakout::call(EBOOT(EBOOT_GETPID_STUB));
+}
+
+uint64_t PS::mmap(uint64_t addr, uint64_t len, int32_t prot, int32_t flags, int32_t fd, uint64_t offset)
+{
+    return (uint64_t)PS::Breakout::call(EBOOT(EBOOT_MMAP_STUB), addr, len, prot, flags, fd, offset);
+}
+
+int32_t PS::munmap(uint64_t addr, uint64_t len)
+{
+    return (int32_t)PS::Breakout::call(EBOOT(EBOOT_MUNMAP_STUB), addr, len);
 }
 
 int32_t PS::PadSetLightBar(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
@@ -357,36 +407,6 @@ void PS::SwitchDiscClose(uint64_t arg)
 void PS::ReloadLuaScripts(uint64_t arg)
 {
     PS::EmuSendCommand(uxMsg_ReloadLuaScripts, arg);
-}
-
-int32_t PS::readAll(int32_t fd, void* buf, size_t len)
-{
-    size_t total = 0;
-    int32_t count = 0;
-
-    while ((count = PS::read(fd, (uint8_t*)buf + total, len - total)) > 0)
-    {
-        total += count;
-        if (total >= len)
-            break;
-    }
-
-    return total;
-}
-
-size_t PS::writeAll(int32_t fd, void* buf, size_t len)
-{
-    size_t total = 0;
-    size_t count = 0;
-
-    while ((count = PS::write(fd, (uint8_t*)buf + total, len - total)) > 0)
-    {
-        total += count;
-        if (total >= len)
-            break;
-    }
-
-    return total;
 }
 
 #ifdef LIB_KERNEL_SCE_KERNEL_SEND_NOTIFICATION_REQUEST

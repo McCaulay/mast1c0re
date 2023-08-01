@@ -32,6 +32,7 @@ namespace PS
         
         size_t read(void* buffer, size_t length);
         size_t send(void* buffer, size_t length);
+        size_t sendNative(uint64_t addr, size_t length);
         size_t printf(const char* format, ...);
         size_t memory(uint8_t* buffer, size_t length);
         void disconnect();

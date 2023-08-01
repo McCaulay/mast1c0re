@@ -16,6 +16,10 @@
     #elif defined(FIRMWARE) && (FIRMWARE == 1050 || FIRMWARE == 1070)
         #include <offsets/ps/libkernel/ps4/10.50_10.70.hpp>
     #endif
+
+    #if defined(LIB_KERNEL_SYS_RET_ERROR) && defined(FIRMWARE) && FIRMWARE < 1001
+        #define SYSCALL_SUPPORT true
+    #endif
 #elif defined(PS5) && PS5
     #if defined(FIRMWARE) && FIRMWARE == 403
         #define LIB_KERNEL_SYS_RET_ERROR 0x35d6
@@ -27,5 +31,9 @@
         #include <offsets/ps/libkernel/ps5/4.03.hpp>
     #elif defined(FIRMWARE) && FIRMWARE == 650
         #include <offsets/ps/libkernel/ps5/6.50.hpp>
+    #endif
+
+    #ifdef LIB_KERNEL_SYS_RET_ERROR
+        #define SYSCALL_SUPPORT true
     #endif
 #endif
