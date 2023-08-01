@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# PS5
+make clean SYSTEM=PS5 FIRMWARE=7.60
+make SYSTEM=PS5 FIRMWARE=7.60
