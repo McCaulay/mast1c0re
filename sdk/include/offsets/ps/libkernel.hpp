@@ -19,7 +19,7 @@
         #include <offsets/ps/libkernel/ps4/11.00.hpp>
     #endif
 
-    #if defined(LIB_KERNEL_SYS_RET_ERROR) && defined(FIRMWARE) && FIRMWARE < 1001
+    #if defined(LIB_KERNEL_SYS_RET_ERROR) && defined(FIRMWARE) && FIRMWARE < 1100
         #define SYSCALL_SUPPORT true
     #endif
 #elif defined(PS5) && PS5
