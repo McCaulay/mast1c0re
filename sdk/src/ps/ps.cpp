@@ -197,6 +197,16 @@ uint32_t PS::getpid()
     return (uint32_t)PS::Breakout::call(EBOOT(EBOOT_GETPID_STUB));
 }
 
+void PS::srand(uint64_t seed)
+{
+    PS::Breakout::call(EBOOT(EBOOT_SRAND_STUB), seed);
+}
+
+uint32_t PS::rand()
+{
+    return (uint32_t)PS::Breakout::call(EBOOT(EBOOT_RAND_STUB));
+}
+
 uint64_t PS::mmap(uint64_t addr, uint64_t len, int32_t prot, int32_t flags, int32_t fd, uint64_t offset)
 {
     return (uint64_t)PS::Breakout::call(EBOOT(EBOOT_MMAP_STUB), addr, len, prot, flags, fd, offset);

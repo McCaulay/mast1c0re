@@ -164,6 +164,8 @@ namespace PS
     uint64_t memcpy(uint64_t dest, uint64_t src, uint64_t n);
     uint64_t strncpy(uint64_t dest, uint64_t src, uint64_t n);
     uint32_t getpid();
+    void srand(uint64_t seed);
+    uint32_t rand();
     uint64_t mmap(uint64_t addr, uint64_t len, int32_t prot, int32_t flags, int32_t fd, uint64_t offset);
     int32_t munmap(uint64_t addr, uint64_t len);
 
