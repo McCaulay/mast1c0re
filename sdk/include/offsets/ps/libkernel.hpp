@@ -27,7 +27,7 @@
         #define LIB_KERNEL_SYS_RET_ERROR 0x35b6
     #elif defined(FIRMWARE) && FIRMWARE >= 400 && FIRMWARE <= 451
         #define LIB_KERNEL_SYS_RET_ERROR 0x35d6
-    #elif defined(FIRMWARE) && FIRMWARE >= 650 && FIRMWARE <= 761
+    #elif defined(FIRMWARE) && FIRMWARE >= 650 && FIRMWARE <= 800
         #define LIB_KERNEL_SYS_RET_ERROR 0x35f6
     #endif
 
