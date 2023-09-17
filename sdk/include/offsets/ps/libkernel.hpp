@@ -7,6 +7,8 @@
 
     #if defined(FIRMWARE) && FIRMWARE == 505
         #include <offsets/ps/libkernel/ps4/5.05.hpp>
+    #elif defined(FIRMWARE) && FIRMWARE == 755
+        #include <offsets/ps/libkernel/ps4/7.55.hpp>
     #elif defined(FIRMWARE) && FIRMWARE == 672
         #include <offsets/ps/libkernel/ps4/6.72.hpp>
     #elif defined(FIRMWARE) && FIRMWARE == 900
