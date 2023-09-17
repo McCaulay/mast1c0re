@@ -73,9 +73,11 @@
     #define EBOOT_SCE_KERNEL_LSEEK_STUB                       0x0763960
     #define EBOOT_SCE_KERNEL_PWRITE_STUB                      0x0763970
     #define EBOOT_READ_STUB                                   0x0763980
-    #define EBOOT_MEMCPY_STUB                                 0x07645d0
-    #define EBOOT_STRNCPY_STUB                                0x0763d20
     #define EBOOT_GETPID_STUB                                 0x07639c0
+    #define EBOOT_STRNCPY_STUB                                0x0763d20
+    #define EBOOT_MEMCPY_STUB                                 0x07645d0
+    #define EBOOT_SRAND_STUB                                  0x07648f0
+    #define EBOOT_RAND_STUB                                   0x0764920
     #define EBOOT_MMAP_STUB                                   0x0764740
     #define EBOOT_MUNMAP_STUB                                 0x0764760
     #define EBOOT_SCE_PAD_SET_LIGHTBAR_STUB                   0x07641f0

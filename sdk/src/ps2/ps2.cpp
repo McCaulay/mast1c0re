@@ -59,7 +59,7 @@ int PS2::memcmp(void* p1, void* p2, int n)
 {
     for (int i = 0; i < n; i++)
     {
-        if (*(uint8_t*)(p1 + i) != *(uint8_t*)(p2 + i))
+        if (*((uint8_t*)p1 + i) != *((uint8_t*)p2 + i))
             return -1;
     }
     return 0;
