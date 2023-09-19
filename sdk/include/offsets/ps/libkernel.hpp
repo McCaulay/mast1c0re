@@ -11,8 +11,8 @@
         #include <offsets/ps/libkernel/ps4/7.55.hpp>
     #elif defined(FIRMWARE) && FIRMWARE == 672
         #include <offsets/ps/libkernel/ps4/6.72.hpp>
-    #elif defined(FIRMWARE) && FIRMWARE == 900
-        #include <offsets/ps/libkernel/ps4/9.00.hpp>
+    #elif defined(FIRMWARE) && FIRMWARE >= 900 && FIRMWARE <= 904
+        #include <offsets/ps/libkernel/ps4/9.00_9.04.hpp>
     #elif defined(FIRMWARE) && FIRMWARE == 1001
         #include <offsets/ps/libkernel/ps4/10.01.hpp>
     #elif defined(FIRMWARE) && FIRMWARE >= 1050 && FIRMWARE <= 1071
