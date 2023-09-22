@@ -6,16 +6,16 @@
 
     #if defined(FIRMWARE) && FIRMWARE == 505
         #include <offsets/ps/libkernel/ps4/5.05.hpp>
-    #elif defined(FIRMWARE) && FIRMWARE == 755
-        #include <offsets/ps/libkernel/ps4/7.55.hpp>
     #elif defined(FIRMWARE) && FIRMWARE == 672
         #include <offsets/ps/libkernel/ps4/6.72.hpp>
+    #elif defined(FIRMWARE) && FIRMWARE == 755
+        #include <offsets/ps/libkernel/ps4/7.55.hpp>
     #elif defined(FIRMWARE) && FIRMWARE >= 900 && FIRMWARE <= 904
         #include <offsets/ps/libkernel/ps4/9.00_9.04.hpp>
     #elif defined(FIRMWARE) && FIRMWARE >= 950 && FIRMWARE <= 960
         #include <offsets/ps/libkernel/ps4/9.50_9.60.hpp>
-    #elif defined(FIRMWARE) && FIRMWARE == 1001
-        #include <offsets/ps/libkernel/ps4/10.01.hpp>
+    #elif defined(FIRMWARE) && FIRMWARE >= 1000 && FIRMWARE <= 1001
+        #include <offsets/ps/libkernel/ps4/10.00_10.01.hpp>
     #elif defined(FIRMWARE) && FIRMWARE >= 1050 && FIRMWARE <= 1071
         #include <offsets/ps/libkernel/ps4/10.50_10.71.hpp>
     #elif defined(FIRMWARE) && FIRMWARE == 1100
