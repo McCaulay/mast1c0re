@@ -1,7 +1,6 @@
 #pragma once
 
 // libkernel_sys.sprx
-
 #if defined(PS4) && PS4
     #define LIB_KERNEL_SYS_RET_ERROR 0xc6
 
@@ -13,6 +12,8 @@
         #include <offsets/ps/libkernel/ps4/6.72.hpp>
     #elif defined(FIRMWARE) && FIRMWARE >= 900 && FIRMWARE <= 904
         #include <offsets/ps/libkernel/ps4/9.00_9.04.hpp>
+    #elif defined(FIRMWARE) && FIRMWARE >= 950 && FIRMWARE <= 960
+        #include <offsets/ps/libkernel/ps4/9.50_9.60.hpp>
     #elif defined(FIRMWARE) && FIRMWARE == 1001
         #include <offsets/ps/libkernel/ps4/10.01.hpp>
     #elif defined(FIRMWARE) && FIRMWARE >= 1050 && FIRMWARE <= 1071
