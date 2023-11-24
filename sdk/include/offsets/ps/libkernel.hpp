@@ -1,6 +1,7 @@
 #pragma once
 
 // libkernel_sys.sprx
+
 #if defined(PS4) && PS4
     #define LIB_KERNEL_SYS_RET_ERROR 0xc6
 
@@ -10,6 +11,12 @@
         #include <offsets/ps/libkernel/ps4/6.72.hpp>
     #elif defined(FIRMWARE) && FIRMWARE == 755
         #include <offsets/ps/libkernel/ps4/7.55.hpp>
+    #elif defined(FIRMWARE) && FIRMWARE >= 800 && FIRMWARE <= 801
+        #include <offsets/ps/libkernel/ps4/8.00_8.01.hpp>
+    #elif defined(FIRMWARE) && FIRMWARE == 850
+        #include <offsets/ps/libkernel/ps4/8.50.hpp>
+    #elif defined(FIRMWARE) && FIRMWARE == 852
+        #include <offsets/ps/libkernel/ps4/8.52.hpp>
     #elif defined(FIRMWARE) && FIRMWARE >= 900 && FIRMWARE <= 904
         #include <offsets/ps/libkernel/ps4/9.00_9.04.hpp>
     #elif defined(FIRMWARE) && FIRMWARE >= 950 && FIRMWARE <= 960
@@ -30,8 +37,10 @@
         #define LIB_KERNEL_SYS_RET_ERROR 0x35b6
     #elif defined(FIRMWARE) && FIRMWARE >= 400 && FIRMWARE <= 451
         #define LIB_KERNEL_SYS_RET_ERROR 0x35d6
-    #elif defined(FIRMWARE) && FIRMWARE >= 650 && FIRMWARE <= 800
+    #elif defined(FIRMWARE) && FIRMWARE >= 650 && FIRMWARE <= 761
         #define LIB_KERNEL_SYS_RET_ERROR 0x35f6
+    #elif defined(FIRMWARE) && FIRMWARE == 800
+        #define LIB_KERNEL_SYS_RET_ERROR 0x36f6
     #endif
 
     #if defined(FIRMWARE) && FIRMWARE >= 300 && FIRMWARE <= 321
@@ -42,6 +51,8 @@
         #include <offsets/ps/libkernel/ps5/4.50_4.51.hpp>
     #elif defined(FIRMWARE) && FIRMWARE == 650
         #include <offsets/ps/libkernel/ps5/6.50.hpp>
+    #elif defined(FIRMWARE) && FIRMWARE == 800
+        #include <offsets/ps/libkernel/ps5/8.00.hpp>
     #endif
 
     #ifdef LIB_KERNEL_SYS_RET_ERROR
