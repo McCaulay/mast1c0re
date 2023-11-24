@@ -37,10 +37,8 @@
         #define LIB_KERNEL_SYS_RET_ERROR 0x35b6
     #elif defined(FIRMWARE) && FIRMWARE >= 400 && FIRMWARE <= 451
         #define LIB_KERNEL_SYS_RET_ERROR 0x35d6
-    #elif defined(FIRMWARE) && FIRMWARE >= 650 && FIRMWARE <= 761
+    #elif defined(FIRMWARE) && FIRMWARE >= 650 && FIRMWARE <= 820
         #define LIB_KERNEL_SYS_RET_ERROR 0x35f6
-    #elif defined(FIRMWARE) && FIRMWARE == 800
-        #define LIB_KERNEL_SYS_RET_ERROR 0x36f6
     #endif
 
     #if defined(FIRMWARE) && FIRMWARE >= 300 && FIRMWARE <= 321
@@ -51,8 +49,6 @@
         #include <offsets/ps/libkernel/ps5/4.50_4.51.hpp>
     #elif defined(FIRMWARE) && FIRMWARE == 650
         #include <offsets/ps/libkernel/ps5/6.50.hpp>
-    #elif defined(FIRMWARE) && FIRMWARE == 800
-        #include <offsets/ps/libkernel/ps5/8.00.hpp>
     #endif
 
     #ifdef LIB_KERNEL_SYS_RET_ERROR
