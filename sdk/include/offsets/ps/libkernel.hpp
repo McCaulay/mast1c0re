@@ -27,6 +27,8 @@
         #include <offsets/ps/libkernel/ps4/10.50_10.71.hpp>
     #elif defined(FIRMWARE) && FIRMWARE >= 1100 && FIRMWARE <= 1102
         #include <offsets/ps/libkernel/ps4/11.00_11.02.hpp>
+    #elif defined(FIRMWARE) && FIRMWARE == 1150
+        #include <offsets/ps/libkernel/ps4/11.50.hpp>
     #endif
 
     #if defined(LIB_KERNEL_SYS_RET_ERROR) && defined(FIRMWARE) && FIRMWARE < 1001
@@ -37,7 +39,7 @@
         #define LIB_KERNEL_SYS_RET_ERROR 0x35b6
     #elif defined(FIRMWARE) && FIRMWARE >= 400 && FIRMWARE <= 451
         #define LIB_KERNEL_SYS_RET_ERROR 0x35d6
-    #elif defined(FIRMWARE) && FIRMWARE >= 650 && FIRMWARE <= 820
+    #elif defined(FIRMWARE) && FIRMWARE >= 650 && FIRMWARE <= 900
         #define LIB_KERNEL_SYS_RET_ERROR 0x35f6
     #endif
 
