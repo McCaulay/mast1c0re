@@ -1,6 +1,6 @@
 #pragma once
 
-#if (defined(PS4) && PS4) && defined(FIRMWARE) && FIRMWARE == 1100
+#if (defined(PS4) && PS4) && defined(FIRMWARE) && FIRMWARE >= 1100 && FIRMWARE <= 1102
     #define LIB_KERNEL_SYSC_S00 0x460
     #define LIB_KERNEL_RFORK_THREAD 0x470
     #define LIB_KERNEL_SIGSETJMP 0x4c0
